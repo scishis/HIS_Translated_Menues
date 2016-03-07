@@ -1,2 +1,2 @@
-# HIS Translated Menus 
-## we good
+# HIS Translated Menus
+## Translated menus from Chinese to English and Korean
