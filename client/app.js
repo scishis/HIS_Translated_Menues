@@ -15,3 +15,6 @@ Router.route("/", function () {
 Router.route("/pricing", function () {
   this.render("pricing");
 });
+Router.route("/menus", function () {
+  this.render("menus");
+});

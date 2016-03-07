@@ -36,6 +36,9 @@
         <ul class = "nav navbar-nav">
           <li class = "{{active}}"><a href = "/">Home</a></li>
           <li class = "{{active 'pricing'}}"><a href = "/pricing">Pricing</a></li>
+          {{#if currentUser}}
+          <li class = "{{active 'menus'}}"><a href = "/menus">Menus</a></li>
+          {{/if}}
         </ul>
         <ul class = "nav navbar-nav navbar-right">
             <li><a href = "#">{{>loginButtons align="right"}}</a></li>
@@ -52,6 +55,11 @@
 <template name = "pricing">
   <div class = "page-header">
     <h1>Pricing</h1>
+  </div>
+</template>
+<template name = "menus">
+  <div class = "page-header">
+    <h1>Translated Menus</h1>
   </div>
 </template>
 <template name = "footer">
