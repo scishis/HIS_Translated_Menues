@@ -1,38 +1,57 @@
 <head>
   <meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>HIS Translated Menus</title>
+  <style>
+  #login-sign-in-link {
+    color: #9d9d9d;
+  }
+  #login-sign-in-link:hover {
+    color: #fff;
+  }
+  </style>
 </head>
-<body>
+<template name = "main">
   <div class = "container">
-    <nav class = "navbar navbar-inverse navbar-fixed-top">
-      <div class = "container-fluid">
-        <div class = "navbar-header">
-          <button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = ".collapse">
-            <span class = "icon-bar"></span>
-            <span class = "icon-bar"></span>
-            <span class = "icon-bar"></span>
-          </button>
-          <a class = "navbar-brand" href = "#">HIS Translated Menus</a>
-        </div>
-        <div class = "collapse navbar-collapse">
-          <ul class = "nav navbar-nav">
-            <li class = "{{active '/'}}"><a href = "/">Home</a></li>
-            <li class = "{{active 'pricing'}}"><a href = "/pricing">Pricing</a></li>
-          </ul>
-          <ul class = "nav navbar-nav navbar-right">
-            <li>{{loginButtons}}</li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <nav class = "navbar navbar-inverse navbar-fixed-bottom">
-      <div class = "container-fluid">
-        <div class = "navbar-header">
-          <div class = "navbar-brand">
-            <small>Created by Simon and Dominick.</small>
-          </div>
-        </div>
-      </div>
-    </nav>
+    {{>header}}
+    {{>yield}}
+    {{>footer}}
   </div>
-</body>
+</template>
+<template name = "header">
+  <nav class = "navbar navbar-inverse navbar-fixed-top">
+    <div class = "container-fluid">
+      <div class = "navbar-header">
+        <button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = ".collapse">
+          <span class = "icon-bar"></span>
+          <span class = "icon-bar"></span>
+          <span class = "icon-bar"></span>
+        </button>
+        <a class = "navbar-brand" href = "#">HIS Translated Menus</a>
+      </div>
+      <div class = "collapse navbar-collapse">
+        <ul class = "nav navbar-nav">
+          <li class = "{{active}}"><a href = "/">Home</a></li>
+          <li class = "{{active 'pricing'}}"><a href = "/pricing">Pricing</a></li>
+        </ul>
+        <ul class = "nav navbar-nav navbar-right">
+            <li><a href = "#">{{>loginButtons align="right"}}</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</template>
+<template name = "home">
+</template>
+<template name = "pricing">
+</template>
+<template name = "footer">
+  <nav class = "navbar navbar-inverse navbar-fixed-bottom">
+    <div class = "container-fluid">
+      <div class = "navbar-header">
+        <div class = "navbar-brand">
+          <small>Created by Simon and Dominick.</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+</template>
