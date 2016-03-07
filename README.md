@@ -1,2 +1,2 @@
-# HIS Translated Menues 
+# HIS Translated Menus 
 ## we good
