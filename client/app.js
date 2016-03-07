@@ -3,6 +3,9 @@ Template.header.helpers({
     return Router.current().route.getName() === tab ? "active" : "";
   }
 });
+Accounts.ui.config({
+  passwordSignupFields: "EMAIL_ONLY"
+});
 Router.configure({
   layoutTemplate: "main"
 });
