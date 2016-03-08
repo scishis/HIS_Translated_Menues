@@ -1,9 +1,18 @@
 Meteor.startup(function () {
   Session.set("scanning", false);
+  Meteor.setTimeout(function () {
+    Session.set("smallScreen", $(".navbar-toggle.collapsed").is(":visible"));
+  }, 2000);
+  $(window).resize(function () {
+    Session.set("smallScreen", $(".navbar-toggle.collapsed").is(":visible"));
+  });
 });
 Template.header.helpers({
   active: function (tab) {
     return Router.current().route.getName() === tab ? "active" : "";
+  },
+  smallScreen: function () {
+    return Session.get("smallScreen");
   }
 });
 Template.home.helpers({

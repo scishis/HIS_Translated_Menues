@@ -41,7 +41,11 @@
           {{/if}}
         </ul>
         <ul class = "nav navbar-nav navbar-right">
-            <li><a href = "#">{{>loginButtons align="right"}}</a></li>
+          {{#if smallScreen}}
+          <li><a href = "#">{{>loginButtons}}</a></li>
+          {{else}}
+          <li><a href = "#">{{>loginButtons align="right"}}</a></li>
+          {{/if}}
         </ul>
       </div>
     </div>
