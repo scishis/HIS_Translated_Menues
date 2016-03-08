@@ -1,10 +1,11 @@
 Meteor.startup(function () {
   Session.set("scanning", false);
-  Meteor.setTimeout(function () {
-    Session.set("smallScreen", $(".navbar-toggle.collapsed").is(":visible"));
-  }, 2000);
+  $(".container").load(function () {
+    console.log(parseFloat($(".container").css("width")))
+    Session.set("smallScreen", parseFloat($(".container").css("width")) < 750);
+  });
   $(window).resize(function () {
-    Session.set("smallScreen", $(".navbar-toggle.collapsed").is(":visible"));
+    Session.set("smallScreen", parseFloat($(".container").css("width")) < 750);
   });
 });
 Template.header.helpers({
