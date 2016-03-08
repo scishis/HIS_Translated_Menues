@@ -53,9 +53,13 @@
   </div>
   <button class = "btn btn-primary" id = "toggleScanning">Toggle Scanning</button>
   <span id = "message"></span>
-  {{#if scanning}}
-  {{>qrScanner}}
-  {{/if}}
+  <div class = "row">
+    <div class = "col-md-3">
+      {{#if scanning}}
+      {{>qrScanner}}
+      {{/if}}
+    </div>
+  </div>
 </template>
 <template name = "pricing">
   <div class = "page-header">
@@ -72,7 +76,7 @@
     <div class = "container-fluid">
       <div class = "navbar-header">
         <div class = "navbar-brand">
-          <small>Created by Simon and Dominick.</small>
+          <small>Created by Simon and Dominick. All rights reserved.</small>
         </div>
       </div>
     </div>
