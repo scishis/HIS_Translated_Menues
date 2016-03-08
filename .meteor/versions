@@ -16,6 +16,7 @@ caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
 check@1.1.0
+coffeescript@1.0.11
 ddp@1.2.2
 ddp-client@1.2.1
 ddp-common@1.2.2
@@ -30,6 +31,7 @@ email@1.0.8
 es5-shim@4.1.14
 fastclick@1.0.7
 geojson-utils@1.0.4
+hitchcott:qr-scanner@1.0.4
 hot-code-push@1.0.0
 html-tools@1.0.5
 htmljs@1.0.5
@@ -77,6 +79,7 @@ spacebars@1.0.7
 spacebars-compiler@1.0.7
 srp@1.0.4
 standard-minifiers@1.0.2
+steeve:jquery-qrcode@0.2.2
 templating@1.1.5
 templating-tools@1.0.0
 tracker@1.0.9

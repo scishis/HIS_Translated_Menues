@@ -22,3 +22,5 @@ twbs:bootstrap
 iron:router
 accounts-ui
 accounts-password
+hitchcott:qr-scanner
+steeve:jquery-qrcode
