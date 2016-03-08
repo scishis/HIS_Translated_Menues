@@ -1,4 +1,5 @@
-var admins = []; //add usernames of admins here
+//add usernames of admins here
+var admins = [];
 //allow admin users to insert, update, and remove menus
 Menus.allow({
   insert: function (userId) {
@@ -13,7 +14,7 @@ Menus.allow({
 });
 //allow admin users to set users to paid or not paid
 Meteor.methods({
-  "setUserToPaid", function (userId) {
+  "setUserToPaid": function (userId) {
     if (admins.indexOf(Meteor.users.findOne({_id: this.userId}).username) !== -1) {
       Meteor.users.update({_id: userId}, {$set: {paid: true}});
     }
@@ -22,11 +23,16 @@ Meteor.methods({
     if (admins.indexOf(Meteor.users.findOne({_id: this.userId}).username) !== -1) {
       Meteor.users.update({_id: userId}, {$set: {paid: false}});
     }
+  },
+  "setUserToAdmin": function (userId) {
+    if (admins.indexOf(Meteor.users.findOne({_id: this.userId}).username) !== -1) {
+      admins.push(Meteor.users.findOne({_id: this.userId}).username);
+    }
   }
 });
 Meteor.publish("menus", function () {
-  //publish menus to users who have set the paid field to true
-  if (Meteor.users.findOne({_id: this.userId}).paid) {
+  //publish menus to users who have set the paid field to true or admin users
+  if (Meteor.users.findOne({_id: this.userId}).paid || admins.indexOf(Meteor.users.findOne({_id: this.userId}).username) !== -1) {
     return Menus.find();
   }
 });
