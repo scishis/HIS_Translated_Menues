@@ -13,17 +13,15 @@ Template.header.helpers({
     return Meteor.user().admin;
   }
 });
-Template.home.helpers({
+Template.menus.helpers({
+  paidUser: function () {
+    return Meteor.user().admin || Meteor.user().paid;
+  },
   scanning: function () {
     return Session.get("scanning");
   }
 });
-Template.menus.helpers({
-  paidUser: function () {
-    return Meteor.user().admin || Meteor.user().paid;
-  }
-});
-Template.home.events({
+Template.menus.events({
   "click #toggleScanning": function () {
     return Session.set("scanning", !Session.get("scanning"));
   }
@@ -47,9 +45,19 @@ Router.route("/admin", function () {
   this.render("admin");
 });
 qrScanner.on("scan", function (error, message) {
-  if (message) {
-    $("#message").html(message);
-    $("#toggleScanning").click();
-    qrScanner.stopCapture();
+  if (Session.get("scanning")) {
+    if ($("#message").html() === "Scanning..") {
+      $("#message").html("Scanning. .");
+    } else if ($("#message").html() === "Scanning. .") {
+      $("#message").html("Scanning ..");
+    } else if ($("#message").html() === "Scanning ..") {
+      $("#message").html("Scanning..");
+    } else {
+      $("#message").html("Scanning..");
+    }
+    if (message) {
+      $("#message").html("");
+      $("#toggleScanning").click();
+    }
   }
 });

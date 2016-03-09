@@ -52,34 +52,36 @@
 </template>
 <template name = "home">
   <div class = "page-header">
-    <h3>HIS Translated Menus</h3>
-  </div>
-  <button class = "btn btn-primary" id = "toggleScanning">Toggle Scanning</button>
-  <span id = "message"></span>
-  <div class = "row">
-    <div class = "col-md-3">
-      {{#if scanning}}
-      {{>qrScanner}}
-      {{/if}}
-    </div>
+    <h2>HIS Translated Menus</h2>
   </div>
 </template>
 <template name = "pricing">
   <div class = "page-header">
-    <h3>Pricing</h3>
+    <h2>Pricing</h2>
   </div>
 </template>
 <template name = "menus">
   <div class = "page-header">
-    <h3>Translated Menus</h3>
+    <h2>Translated Menus</h2>
   </div>
-  {{#unless paidUser}}
+  {{#if paidUser}}
+  <div class = "page-header">
+    <h3>Scan Menus</h3>
+  </div>
+  <button class = "btn btn-primary" id = "toggleScanning">Toggle Scanning</button>
+  <div id = "message"></div>
+  <div class = "row">
+    <div class = "col-md-3" style = "display: {{#if scanning}}block{{else}}none{{/if}}">
+      {{>qrScanner}}
+    </div>
+  </div>
+  {{else}}
   Hello, it seems that either you have not paid for the translated menus or we still have not sorted our your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details..
-  {{/unless}}
+  {{/if}}
 </template>
 <template name = "admin">
   <div class = "page-header">
-    <h3>Admin</h3>
+    <h2>Admin</h2>
   </div>
 </template>
 <template name = "footer">
