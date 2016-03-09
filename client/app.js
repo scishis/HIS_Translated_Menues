@@ -1,6 +1,3 @@
-Meteor.startup(function () {
-  Session.set("scanning", false);
-});
 Tracker.autorun(function () {
   Meteor.subscribe("menus");
   Meteor.subscribe("users");
@@ -16,18 +13,10 @@ Template.header.helpers({
 Template.menus.helpers({
   paidUser: function () {
     return Meteor.user().admin || Meteor.user().paid;
-  },
-  scanning: function () {
-    return Session.get("scanning");
-  }
-});
-Template.menus.events({
-  "click #toggleScanning": function () {
-    return Session.set("scanning", !Session.get("scanning"));
   }
 });
 Accounts.ui.config({
-  passwordSignupFields: "EMAIL_ONLY"
+  passwordSignupFields: "USERNAME_AND_OPTIONAL_EMAIL"
 });
 Router.configure({
   layoutTemplate: "main"
@@ -43,21 +32,4 @@ Router.route("/menus", function () {
 });
 Router.route("/admin", function () {
   this.render("admin");
-});
-qrScanner.on("scan", function (error, message) {
-  if (Session.get("scanning")) {
-    if ($("#message").html() === "Scanning..") {
-      $("#message").html("Scanning. .");
-    } else if ($("#message").html() === "Scanning. .") {
-      $("#message").html("Scanning ..");
-    } else if ($("#message").html() === "Scanning ..") {
-      $("#message").html("Scanning..");
-    } else {
-      $("#message").html("Scanning..");
-    }
-    if (message) {
-      $("#message").html("");
-      $("#toggleScanning").click();
-    }
-  }
 });

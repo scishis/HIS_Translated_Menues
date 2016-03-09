@@ -68,13 +68,6 @@
   <div class = "page-header">
     <h3>Scan Menus</h3>
   </div>
-  <button class = "btn btn-primary" id = "toggleScanning">Toggle Scanning</button>
-  <div id = "message"></div>
-  <div class = "row">
-    <div class = "col-md-3" style = "display: {{#if scanning}}block{{else}}none{{/if}}">
-      {{>qrScanner}}
-    </div>
-  </div>
   {{else}}
   Hello, it seems that either you have not paid for the translated menus or we still have not sorted our your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details..
   {{/if}}
@@ -82,6 +75,9 @@
 <template name = "admin">
   <div class = "page-header">
     <h2>Admin</h2>
+  </div>
+  <div class = "page-header">
+    <h3>Manage Menus</h3>
   </div>
 </template>
 <template name = "footer">
