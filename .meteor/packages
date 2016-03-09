@@ -18,7 +18,7 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 twbs:bootstrap
 iron:router
-accounts-ui
 accounts-password
 hitchcott:qr-scanner
 steeve:jquery-qrcode
+ian:accounts-ui-bootstrap-3
