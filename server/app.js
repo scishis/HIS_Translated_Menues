@@ -12,6 +12,17 @@ Meteor.startup(function () {
       return Meteor.users.findOne({_id: userId}).admin;
     }
   });
+  Meteor.users.deny({
+    insert: function () {
+      return true;
+    },
+    update: function () {
+      return true;
+    },
+    remove: function () {
+      return true;
+    }
+  });
   //allow admin users to set users to paid or not paid
   Meteor.methods({
     "setUserToPaid": function (userId) {
@@ -32,8 +43,24 @@ Meteor.startup(function () {
   });
   Meteor.publish("menus", function () {
     //publish menus to users who have set the paid field to true or admin users
-    if (Meteor.users.findOne({_id: this.userId}).paid || Meteor.users.findOne({_id: this.userId}).admin) {
-      return Menus.find();
+    if (this.userId) {
+      if (Meteor.users.findOne({_id: this.userId}).paid || Meteor.users.findOne({_id: this.userId}).admin) {
+        return Menus.find();
+      }
+    } else {
+      return [];
+    }
+  });
+  Meteor.publish("users", function () {
+    //publish all users to admin and the current user to non-admin
+    if (this.userId) {
+      if (Meteor.users.findOne({_id: this.userId}).admin) {
+        return Meteor.users.find({}, {fields: {emails: 1, paid: 1, admin: 1}});
+      } else {
+        return Meteor.users.find({_id: this.userId}, {fields: {emails: 1, paid: 1, admin: 1}});
+      }
+    } else {
+      return [];
     }
   });
 });

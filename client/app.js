@@ -1,14 +1,26 @@
 Meteor.startup(function () {
   Session.set("scanning", false);
 });
+Tracker.autorun(function () {
+  Meteor.subscribe("menus");
+  Meteor.subscribe("users");
+});
 Template.header.helpers({
   active: function (tab) {
     return Router.current().route.getName() === tab ? "active" : "";
+  },
+  adminUser: function () {
+    return Meteor.user().admin;
   }
 });
 Template.home.helpers({
   scanning: function () {
     return Session.get("scanning");
+  }
+});
+Template.menus.helpers({
+  paidUser: function () {
+    return Meteor.user().admin || Meteor.user().paid;
   }
 });
 Template.home.events({
@@ -30,6 +42,9 @@ Router.route("/pricing", function () {
 });
 Router.route("/menus", function () {
   this.render("menus");
+});
+Router.route("/admin", function () {
+  this.render("admin");
 });
 qrScanner.on("scan", function (error, message) {
   if (message) {
