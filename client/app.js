@@ -13,6 +13,9 @@ Template.header.helpers({
 Template.menus.helpers({
   paidUser: function () {
     return Meteor.user().admin || Meteor.user().paid;
+  },
+  menuList: function () {
+    return Router.current().route.getName();
   }
 });
 Accounts.ui.config({
@@ -28,6 +31,9 @@ Router.route("/pricing", function () {
   this.render("pricing");
 });
 Router.route("/menus", function () {
+  this.render("menus");
+});
+Router.route("/menus/:_id", function () {
   this.render("menus");
 });
 Router.route("/admin", function () {

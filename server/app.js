@@ -8,7 +8,7 @@ Meteor.startup(function () {
     update: function (userId) {
       return Meteor.users.findOne({_id: userId}).admin;
     },
-    remove: function () {
+    remove: function (userId) {
       return Meteor.users.findOne({_id: userId}).admin;
     }
   });
@@ -26,16 +26,19 @@ Meteor.startup(function () {
   //allow admin users to set users to paid or not paid
   Meteor.methods({
     "setUserToPaid": function (userId) {
+      check(userId, String);
       if (Meteor.users.findOne({_id: this.userId}).admin) {
         Meteor.users.update({_id: userId}, {$set: {paid: true}});
       }
     },
     "setUserToNotPaid": function (userId) {
+      check(userId, String);
       if (Meteor.users.findOne({_id: this.userId}).admin) {
         Meteor.users.update({_id: userId}, {$set: {paid: false}});
       }
     },
     "setUserToAdmin": function (userId) {
+      check(userId, String);
       if (Meteor.users.findOne({_id: this.userId}).admin) {
         Meteor.users.update({_id: userId}, {$set: {admin: true}});
       }

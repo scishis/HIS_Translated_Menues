@@ -64,9 +64,23 @@
   <div class = "page-header">
     <h2>Translated Menus</h2>
   </div>
+  {{#if currentUser}}
   {{#if paidUser}}
+  {{#if menuList}}
+  <table class = "table table-hover table-condensed">
+  {{#each menus}}
+  <div class = ""></div>
+  {{/each}}
+  </table>
   {{else}}
-  Hello, it seems that either you have not paid for the translated menus or we still have not sorted our your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details..
+  {{#with menu}}
+  {{/with}}
+  {{/if}}
+  {{else}}
+  Hello, it seems that either you have not paid for the translated menus or we still have not sorted our your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details.
+  {{/if}}
+  {{else}}
+  Hello, it seems that you have not signed in.
   {{/if}}
 </template>
 <template name = "admin">
