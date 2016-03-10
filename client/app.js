@@ -39,6 +39,7 @@ Template.admin.helpers({
     return Menus.findOne({"restaurant.english": Router.current().params.query.name.replace(/_/g, " ")}).menu;
   },
   qrcode: function () {
+    //remove .replace when deploying
     return (Meteor.absoluteUrl("menus/" + Router.current().params.query.name)).replace("https://", "");
   }
 });
