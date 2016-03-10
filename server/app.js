@@ -1,5 +1,39 @@
+/* global Menus */
 Meteor.startup(function () {
-  //add usernames of admins here
+  //testing purposes
+  Meteor.users.update({username: "dom"}, {$set: {admin: true}});
+  if (Menus.find().count() === 0) {
+    Menus.insert({
+      restaurant: {chinese: "Dom's Restaurant (Chinese)", english: "Dom's Restaurant (English)", korean: "Dom's Restaurant (Korean)"},
+      menu: [{
+        name: {chinese: "Chinese Pizza", english: "English Pizza", korean: "Korean Pizza"},
+        price: 20
+      }, {
+        name: {chinese: "Chinese Bread", english: "English Bread", korean: "Korean Bread"},
+        price: 10
+      }]
+    });
+    Menus.insert({
+      restaurant: {chinese: "Ter's Restaurant (Chinese)", english: "Ter's Restaurant (English)", korean: "Ter's Restaurant (Korean)"},
+      menu: [{
+        name: {chinese: "Chinese Lemonade", english: "English Lemonade", korean: "Korean Lemonade"},
+        price: 5
+      }, {
+        name: {chinese: "Chinese Breadrolls", english: "English Breadrolls", korean: "Korean Breadrolls"},
+        price: 25
+      }]
+    });
+    Menus.insert({
+      restaurant: {chinese: "Jd's Restaurant (Chinese)", english: "Jd's Restaurant (English)", korean: "Jd's Restaurant (Korean)"},
+      menu: [{
+        name: {chinese: "Chinese Rice", english: "English Rice", korean: "Korean Rice"},
+        price: 5
+      }, {
+        name: {chinese: "Chinese Green Bean", english: "English Green Bean", korean: "Korean Green Bean"},
+        price: 20
+      }]
+    });
+  }
   //allow admin users to insert, update, and remove menus
   Menus.allow({
     insert: function (userId) {

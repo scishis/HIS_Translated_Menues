@@ -22,3 +22,5 @@ accounts-password
 steeve:jquery-qrcode
 ian:accounts-ui-bootstrap-3
 check
+mizzao:bootboxjs
+khrone:img-qrcode

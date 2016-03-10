@@ -67,17 +67,55 @@
   {{#if currentUser}}
   {{#if paidUser}}
   {{#if menuList}}
-  <table class = "table table-hover table-condensed">
-  {{#each menus}}
-  <div class = ""></div>
-  {{/each}}
+  <div class = "page-header">
+    <h3>Restaurants</h3>
+  </div>
+  <table class = "table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Restaurant Name (Chinese)</th>
+        <th>Restaurant Name (English)</th>
+        <th>Restaurant Name (Korean)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menus}}
+      <tr class = "restaurant">
+        <td>{{restaurant.chinese}}</td>
+        <td>{{restaurant.english}}</td>
+        <td>{{restaurant.korean}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
   </table>
   {{else}}
-  {{#with menu}}
-  {{/with}}
+  <a href = "/menus">Go Back</a>
+  <div class = "page-header">
+    <h3>Menu</h3>
+  </div>
+  <table class = "table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Food Name (Chinese)</th>
+        <th>Food Name (English)</th>
+        <th>Food Name (Korean)</th>
+        <th>Price (RMB)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menu}}
+      <tr>
+        <td>{{name.chinese}}</td>
+        <td>{{name.english}}</td>
+        <td>{{name.korean}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
   {{/if}}
   {{else}}
-  Hello, it seems that either you have not paid for the translated menus or we still have not sorted our your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details.
+  Hello, it seems that either you have not paid for the translated menus or we still have not sorted out your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details.
   {{/if}}
   {{else}}
   Hello, it seems that you have not signed in.
@@ -87,9 +125,59 @@
   <div class = "page-header">
     <h2>Admin</h2>
   </div>
+  {{#if adminUser}}
   <div class = "page-header">
     <h3>Manage Menus</h3>
   </div>
+  {{#if menuList}}
+  <table class = "table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Restaurant Name (Chinese)</th>
+        <th>Restaurant Name (English)</th>
+        <th>Restaurant Name (Korean)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menus}}
+      <tr class = "restaurant">
+        <td>{{restaurant.chinese}}</td>
+        <td>{{restaurant.english}}</td>
+        <td>{{restaurant.korean}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <button class = "btn btn-primary" id = "addRestaurant"><span class = "glyphicon glyphicon-plus"></span> Add Restaurant</button>
+  {{else}}
+  <a href = "/admin">Go Back</a>
+  <table class = "table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Food Name (Chinese)</th>
+        <th>Food Name (English)</th>
+        <th>Food Name (Korean)</th>
+        <th>Price (RMB)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menu}}
+      <tr>
+        <td>{{name.chinese}}</td>
+        <td>{{name.english}}</td>
+        <td>{{name.korean}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div class = "row">
+    {{>QrCode text=qrcode}}
+  </div>
+  {{/if}}
+  {{else}}
+  Hello, you do not seem to be an admin user.
+  {{/if}}
 </template>
 <template name = "footer">
   <nav class = "navbar navbar-inverse navbar-fixed-bottom">

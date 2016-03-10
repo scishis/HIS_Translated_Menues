@@ -1,3 +1,4 @@
+/* global Router Menus */
 Tracker.autorun(function () {
   Meteor.subscribe("menus");
   Meteor.subscribe("users");
@@ -15,7 +16,40 @@ Template.menus.helpers({
     return Meteor.user().admin || Meteor.user().paid;
   },
   menuList: function () {
-    return Router.current().route.getName();
+    return !Router.current().params.query.name;
+  },
+  menus: function () {
+    return Menus.find();
+  },
+  menu: function () {
+    return Menus.findOne({"restaurant.english": Router.current().params.query.name.replace(/_/g, " ")}).menu;
+  }
+});
+Template.admin.helpers({
+  adminUser: function () {
+    return Meteor.user().admin;
+  },
+  menuList: function () {
+    return !Router.current().params.query.name;
+  },
+  menus: function () {
+    return Menus.find();
+  },
+  menu: function () {
+    return Menus.findOne({"restaurant.english": Router.current().params.query.name.replace(/_/g, " ")}).menu;
+  },
+  qrcode: function () {
+    return (Meteor.absoluteUrl() + "menus/" + Router.current().params.query.name).replace("https://", "");
+  }
+});
+Template.menus.events({
+  "click .restaurant": function () {
+    Router.go("/menus?name=" + this.restaurant.english.replace(/ /g, "_"));
+  }
+});
+Template.admin.events({
+  "click .restaurant": function () {
+    Router.go("/admin?name=" + this.restaurant.english.replace(/ /g, "_"));
   }
 });
 Accounts.ui.config({
@@ -33,9 +67,12 @@ Router.route("/pricing", function () {
 Router.route("/menus", function () {
   this.render("menus");
 });
-Router.route("/menus/:_id", function () {
+Router.route("/menus?name=:english", function () {
   this.render("menus");
 });
 Router.route("/admin", function () {
+  this.render("admin");
+});
+Router.route("/admin?name=:english", function () {
   this.render("admin");
 });
