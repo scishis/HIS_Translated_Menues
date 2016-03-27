@@ -1,102 +1,189 @@
 /* global Menus */
-Meteor.startup(function () {
+Meteor.startup(() => {
   //testing purposes
-  Meteor.users.update({username: "dom"}, {$set: {admin: true}});
+  Meteor.users.update({
+    username: "dom"
+  }, {
+    $set: {
+      admin: true
+    }
+  });
   if (Menus.find().count() === 0) {
     Menus.insert({
-      restaurant: {chinese: "Dom's Restaurant (Chinese)", english: "Dom's Restaurant (English)", korean: "Dom's Restaurant (Korean)"},
+      restaurant: {
+        chinese: "小餐馆",
+        english: "Little Restaurant",
+        korean: "작은 레스토랑"
+      },
       menu: [{
-        name: {chinese: "Chinese Pizza", english: "English Pizza", korean: "Korean Pizza"},
+        name: {
+          chinese: "比萨",
+          english: "Pizza",
+          korean: "피차"
+        },
         price: 20
       }, {
-        name: {chinese: "Chinese Bread", english: "English Bread", korean: "Korean Bread"},
+        name: {
+          chinese: "面包",
+          english: "Bread",
+          korean: "빵"
+        },
         price: 10
       }]
     });
     Menus.insert({
-      restaurant: {chinese: "Ter's Restaurant (Chinese)", english: "Ter's Restaurant (English)", korean: "Ter's Restaurant (Korean)"},
+      restaurant: {
+        chinese: "好日子餐厅",
+        english: "Good Day Restaurant",
+        korean: "좋은 날 레스토랑"
+      },
       menu: [{
-        name: {chinese: "Chinese Lemonade", english: "English Lemonade", korean: "Korean Lemonade"},
+        name: {
+          chinese: "柠檬水",
+          english: "Lemonade",
+          korean: "레몬 에이드"
+        },
         price: 5
       }, {
-        name: {chinese: "Chinese Breadrolls", english: "English Breadrolls", korean: "Korean Breadrolls"},
+        name: {
+          chinese: "比萨",
+          english: "Pizza",
+          korean: "피차"
+        },
         price: 25
-      }]
-    });
-    Menus.insert({
-      restaurant: {chinese: "Jd's Restaurant (Chinese)", english: "Jd's Restaurant (English)", korean: "Jd's Restaurant (Korean)"},
-      menu: [{
-        name: {chinese: "Chinese Rice", english: "English Rice", korean: "Korean Rice"},
-        price: 5
-      }, {
-        name: {chinese: "Chinese Green Bean", english: "English Green Bean", korean: "Korean Green Bean"},
-        price: 20
       }]
     });
   }
   //allow admin users to insert, update, and remove menus
   Menus.allow({
-    insert: function (userId) {
-      return Meteor.users.findOne({_id: userId}).admin;
-    },
-    update: function (userId) {
-      return Meteor.users.findOne({_id: userId}).admin;
-    },
-    remove: function (userId) {
-      return Meteor.users.findOne({_id: userId}).admin;
-    }
+    insert(userId) {
+        return Meteor.users.findOne({
+          _id: userId
+        }).admin;
+      },
+      update(userId) {
+        return Meteor.users.findOne({
+          _id: userId
+        }).admin;
+      },
+      remove(userId) {
+        return Meteor.users.findOne({
+          _id: userId
+        }).admin;
+      }
   });
   Meteor.users.deny({
-    insert: function () {
-      return true;
-    },
-    update: function () {
-      return true;
-    },
-    remove: function () {
-      return true;
-    }
+    insert() {
+        return true;
+      },
+      update() {
+        return true;
+      },
+      remove() {
+        return true;
+      }
   });
   //allow admin users to set users to paid or not paid
   Meteor.methods({
-    "setUserToPaid": function (userId) {
+    "setUserToPaid" (userId) {
       check(userId, String);
-      if (Meteor.users.findOne({_id: this.userId}).admin) {
-        Meteor.users.update({_id: userId}, {$set: {paid: true}});
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
+        Meteor.users.update({
+          _id: userId
+        }, {
+          $set: {
+            paid: true
+          }
+        });
       }
     },
-    "setUserToNotPaid": function (userId) {
+    "setUserToNotPaid" (userId) {
       check(userId, String);
-      if (Meteor.users.findOne({_id: this.userId}).admin) {
-        Meteor.users.update({_id: userId}, {$set: {paid: false}});
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
+        Meteor.users.update({
+          _id: userId
+        }, {
+          $set: {
+            paid: false
+          }
+        });
       }
     },
-    "setUserToAdmin": function (userId) {
+    "setUserToAdmin" (userId) {
       check(userId, String);
-      if (Meteor.users.findOne({_id: this.userId}).admin) {
-        Meteor.users.update({_id: userId}, {$set: {admin: true}});
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
+        Meteor.users.update({
+          _id: userId
+        }, {
+          $set: {
+            admin: true
+          }
+        });
+      }
+    },
+    "setLanguage" (language) {
+      check(language, Match.OneOf("english", "chinese", "korean"));
+      if (this.userId) {
+        Meteor.users.update({
+          _id: this.userId
+        }, {
+          $set: {
+            language
+          }
+        });
       }
     }
   });
-  Meteor.publish("menus", function () {
+  Meteor.publish("menus", function() {
     //publish menus to users who have set the paid field to true or admin users
     if (this.userId) {
-      if (Meteor.users.findOne({_id: this.userId}).paid || Meteor.users.findOne({_id: this.userId}).admin) {
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).paid || Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
         return Menus.find();
       }
-    } else {
+    }
+    else {
       return [];
     }
   });
-  Meteor.publish("users", function () {
+  Meteor.publish("users", function() {
     //publish all users to admin and the current user to non-admin
     if (this.userId) {
-      if (Meteor.users.findOne({_id: this.userId}).admin) {
-        return Meteor.users.find({}, {fields: {emails: 1, paid: 1, admin: 1}});
-      } else {
-        return Meteor.users.find({_id: this.userId}, {fields: {emails: 1, paid: 1, admin: 1}});
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
+        return Meteor.users.find({}, {
+          fields: {
+            emails: 1,
+            paid: 1,
+            admin: 1,
+            language: 1
+          }
+        });
       }
-    } else {
+      else {
+        return Meteor.users.find({
+          _id: this.userId
+        }, {
+          fields: {
+            emails: 1,
+            paid: 1,
+            admin: 1,
+            language: 1
+          }
+        });
+      }
+    }
+    else {
       return [];
     }
   });

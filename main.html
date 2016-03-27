@@ -1,76 +1,79 @@
 <head>
-  <meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>HIS Translated Menus</title>
   <style>
-  body {
-    padding-top: 70px;
-    padding-bottom: 70px;
-  }
-  #login-sign-in-link {
-    color: #9d9d9d;
-  }
-  #login-sign-in-link:hover {
-    color: #fff;
-  }
+    body {
+      padding-top: 70px;
+      padding-bottom: 70px;
+    }
+    
+    #login-sign-in-link {
+      color: #9d9d9d;
+    }
+    
+    #login-sign-in-link:hover {
+      color: #fff;
+    }
   </style>
 </head>
-<template name = "main">
-  <div class = "container">
-    {{>header}}
-    {{>yield}}
-    {{>footer}}
+<template name="main">
+  <div class="container">
+    {{#if language 'korean'}} {{>header_ko}} {{else}} {{#if language 'chinese'}} {{>header_ch}} {{else}} {{>header_en}} {{/if}} {{/if}} {{>yield}} {{#if language 'korean'}} {{>footer_ko}} {{else}} {{#if language 'chinese'}} {{>footer_ch}} {{else}} {{>footer_en}}
+    {{/if}} {{/if}}
   </div>
 </template>
-<template name = "header">
-  <nav class = "navbar navbar-inverse navbar-fixed-top">
-    <div class = "container-fluid">
-      <div class = "navbar-header">
-        <button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = ".collapse">
-          <span class = "icon-bar"></span>
-          <span class = "icon-bar"></span>
-          <span class = "icon-bar"></span>
+<template name="header_en">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
         </button>
-        <a class = "navbar-brand" href = "#">HIS Translated Menus</a>
+        <a class="navbar-brand" href="#">HIS Translated Menus</a>
       </div>
-      <div class = "collapse navbar-collapse">
-        <ul class = "nav navbar-nav">
-          <li class = "{{active}}"><a href = "/">Home</a></li>
-          <li class = "{{active 'pricing'}}"><a href = "/pricing">Pricing</a></li>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="{{active}}"><a href="/">Home</a></li>
+          <li class="{{active 'pricing'}}"><a href="/pricing">Pricing</a></li>
           {{#if currentUser}}
-          <li class = "{{active 'menus'}}"><a href = "/menus">Menus</a></li>
+          <li class="{{active 'restaurants'}}"><a href="/restaurants">Restaurants</a></li>
           {{#if adminUser}}
-          <li class = "{{active 'admin'}}"><a href = "/admin">Admin</a></li>
-          {{/if}}
-          {{/if}}
+          <li class="{{active 'admin'}}"><a href="/admin">Admin</a></li>
+          {{/if}} {{/if}}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language / 语言 / 언어<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#" class="setLanguage" id="setEnglish">English</a></li>
+              <li><a href="#" class="setLanguage" id="setChinese">中文</a></li>
+              <li><a href="#" class="setLanguage" id="setKorean">한국어</a></li>
+            </ul>
+          </li>
         </ul>
-        <ul class = "nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right">
           {{>loginButtons}}
         </ul>
       </div>
     </div>
   </nav>
 </template>
-<template name = "home">
-  <div class = "page-header">
+<template name="home_en">
+  <div class="page-header">
     <h2>HIS Translated Menus</h2>
   </div>
 </template>
-<template name = "pricing">
-  <div class = "page-header">
+<template name="pricing_en">
+  <div class="page-header">
     <h2>Pricing</h2>
   </div>
 </template>
-<template name = "menus">
-  <div class = "page-header">
-    <h2>Translated Menus</h2>
+<template name="restaurants_en">
+  {{#if currentUser}} {{#if paidUser}} {{#if menuList}}
+  <div class="page-header">
+    <h2>Restaurants</h2>
   </div>
-  {{#if currentUser}}
-  {{#if paidUser}}
-  {{#if menuList}}
-  <div class = "page-header">
-    <h3>Restaurants</h3>
-  </div>
-  <table class = "table table-striped table-hover">
+  <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
         <th>Restaurant Name (Chinese)</th>
@@ -80,7 +83,7 @@
     </thead>
     <tbody>
       {{#each menus}}
-      <tr class = "restaurant">
+      <tr class="restaurant">
         <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.english}}</td>
         <td>{{restaurant.korean}}</td>
@@ -89,11 +92,11 @@
     </tbody>
   </table>
   {{else}}
-  <a href = "/menus">Go Back</a>
-  <div class = "page-header">
-    <h3>Menu</h3>
+  <div class="page-header">
+    <h2>{{restaurantName}}</h2>
   </div>
-  <table class = "table table-striped table-hover">
+  <a href="/restaurants">Go Back</a>
+  <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
         <th>Food Name (Chinese)</th>
@@ -113,24 +116,15 @@
       {{/each}}
     </tbody>
   </table>
-  {{/if}}
-  {{else}}
-  Hello, it seems that either you have not paid for the translated menus or we still have not sorted out your payment yet. Please go to <a href = "/pricing">Pricing</a> for more details.
-  {{/if}}
-  {{else}}
-  Hello, it seems that you have not signed in.
-  {{/if}}
+  {{/if}} {{else}} Hello, it seems that either you have not paid for the translated menus or we still have not sorted out your payment yet. Please go to <a href="/pricing">Pricing</a> for more details. {{/if}} {{else}} Hello, it seems that you have not
+  signed in. {{/if}}
 </template>
-<template name = "admin">
-  <div class = "page-header">
-    <h2>Admin</h2>
+<template name="admin_en">
+  {{#if adminUser}} {{#if menuList}}
+  <div class="page-header">
+    <h2>Manage Restaurants</h2>
   </div>
-  {{#if adminUser}}
-  <div class = "page-header">
-    <h3>Manage Menus</h3>
-  </div>
-  {{#if menuList}}
-  <table class = "table table-striped table-hover">
+  <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
         <th>Restaurant Name (Chinese)</th>
@@ -140,7 +134,7 @@
     </thead>
     <tbody>
       {{#each menus}}
-      <tr class = "restaurant">
+      <tr class="restaurant">
         <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.english}}</td>
         <td>{{restaurant.korean}}</td>
@@ -148,10 +142,13 @@
       {{/each}}
     </tbody>
   </table>
-  <button class = "btn btn-primary" id = "addRestaurant"><span class = "glyphicon glyphicon-plus"></span> Add Restaurant</button>
+  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> Add Restaurant</button>
   {{else}}
-  <a href = "/admin">Go Back</a>
-  <table class = "table table-striped table-hover">
+  <div class="page-header">
+    <h2>{{restaurantName}}</h2>
+  </div>
+  <a href="/admin">Go Back</a>
+  <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
         <th>Food Name (Chinese)</th>
@@ -171,20 +168,339 @@
       {{/each}}
     </tbody>
   </table>
-  <div class = "row">
+  <div class="row">
     {{>QrCode text=qrcode}}
   </div>
-  {{/if}}
-  {{else}}
-  Hello, you do not seem to be an admin user.
-  {{/if}}
+  {{/if}} {{else}} Hello, you do not seem to be an admin user. {{/if}}
 </template>
-<template name = "footer">
-  <nav class = "navbar navbar-inverse navbar-fixed-bottom">
-    <div class = "container-fluid">
-      <div class = "navbar-header">
-        <div class = "navbar-brand">
-          <small>Created by Simon and Dominick. All rights reserved.</small>
+<template name="footer_en">
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">
+          <small>Created by Dominick. All rights reserved.</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+</template>
+<template name="header_ch">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">HIS菜单翻译</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="{{active}}"><a href="/">首页</a></li>
+          <li class="{{active 'pricing'}}"><a href="/pricing">价格</a></li>
+          {{#if currentUser}}
+          <li class="{{active 'restaurants'}}"><a href="/restaurants">餐馆</a></li>
+          {{#if adminUser}}
+          <li class="{{active 'admin'}}"><a href="/admin">管理员</a></li>
+          {{/if}} {{/if}}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language / 语言 / 언어<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#" class="setLanguage" id="setEnglish">English</a></li>
+              <li><a href="#" class="setLanguage" id="setChinese">中文</a></li>
+              <li><a href="#" class="setLanguage" id="setKorean">한국어</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {{>loginButtons}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</template>
+<template name="home_ch">
+  <div class="page-header">
+    <h2>HIS菜单翻译</h2>
+  </div>
+</template>
+<template name="pricing_ch">
+  <div class="page-header">
+    <h2>价格</h2>
+  </div>
+</template>
+<template name="restaurants_ch">
+  {{#if currentUser}} {{#if paidUser}} {{#if menuList}}
+  <div class="page-header">
+    <h2>餐馆</h2>
+  </div>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>餐馆名称 (中文)</th>
+        <th>餐馆名称 (英文)</th>
+        <th>餐馆名称 (韩文)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menus}}
+      <tr class="restaurant">
+        <td>{{restaurant.chinese}}</td>
+        <td>{{restaurant.english}}</td>
+        <td>{{restaurant.korean}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  <div class="page-header">
+    <h2>{{restaurantName}}</h2>
+  </div>
+  <a href="/restaurants">返回</a>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>食品名称 (中文)</th>
+        <th>食品名称 (英文)</th>
+        <th>食品名称 (韩文)</th>
+        <th>价格 (RMB)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menu}}
+      <tr>
+        <td>{{name.chinese}}</td>
+        <td>{{name.english}}</td>
+        <td>{{name.korean}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{else}}您好，似乎您还没有购买菜单翻译或我们还没有整理您的订单。请去<a href="/pricing">价格</a>查看更多详情。{{/if}} {{else}}您好，似乎您还没有登录。{{/if}}
+</template>
+<template name="admin_ch">
+  {{#if adminUser}} {{#if menuList}}
+  <div class="page-header">
+    <h2>管理餐馆</h2>
+  </div>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>餐馆名称 (中文)</th>
+        <th>餐馆名称 (英文)</th>
+        <th>餐馆名称 (韩文)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menus}}
+      <tr class="restaurant">
+        <td>{{restaurant.chinese}}</td>
+        <td>{{restaurant.english}}</td>
+        <td>{{restaurant.korean}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> 添加餐馆</button>
+  {{else}}
+  <div class="page-header">
+    <h2>{{restaurantName}}</h2>
+  </div>
+  <a href="/admin">返回</a>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>食品名称 (中文)</th>
+        <th>食品名称 (英文)</th>
+        <th>食品名称 (韩文)</th>
+        <th>价格 (RMB)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menu}}
+      <tr>
+        <td>{{name.chinese}}</td>
+        <td>{{name.english}}</td>
+        <td>{{name.korean}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div class="row">
+    {{>QrCode text=qrcode}}
+  </div>
+  {{/if}} {{else}}您好，似乎您不是管理员。{{/if}}
+</template>
+<template name="footer_ch">
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">
+          <small>由Dominick创建。版权所有。</small>
+        </div>
+      </div>
+    </div>
+  </nav>
+</template>
+<template name="header_ko">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">HIS 번역 메뉴</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="{{active}}"><a href="/">홈 페이지</a></li>
+          <li class="{{active 'pricing'}}"><a href="/pricing">가격</a></li>
+          {{#if currentUser}}
+          <li class="{{active 'restaurants'}}"><a href="/restaurants">레스토랑</a></li>
+          {{#if adminUser}}
+          <li class="{{active 'admin'}}"><a href="/admin">관리자</a></li>
+          {{/if}} {{/if}}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language / 语言 / 언어<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#" class="setLanguage" id="setEnglish">English</a></li>
+              <li><a href="#" class="setLanguage" id="setChinese">中文</a></li>
+              <li><a href="#" class="setLanguage" id="setKorean">한국어</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {{>loginButtons}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</template>
+<template name="home_ko">
+  <div class="page-header">
+    <h2>HIS 번역 메뉴</h2>
+  </div>
+</template>
+<template name="pricing_ko">
+  <div class="page-header">
+    <h2>가격</h2>
+  </div>
+</template>
+<template name="restaurants_ko">
+  {{#if currentUser}} {{#if paidUser}} {{#if menuList}}
+  <div class="page-header">
+    <h2>레스토랑</h2>
+  </div>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>레스토랑 이름 (중국말)</th>
+        <th>레스토랑 이름 (영어)</th>
+        <th>레스토랑 이름 (한국어)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menus}}
+      <tr class="restaurant">
+        <td>{{restaurant.chinese}}</td>
+        <td>{{restaurant.english}}</td>
+        <td>{{restaurant.korean}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{else}}
+  <div class="page-header">
+    <h2>{{restaurantName}}</h2>
+  </div>
+  <a href="/restaurants">반환</a>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>식품명 (중국말)</th>
+        <th>식품명 (영어)</th>
+        <th>식품명 (한국어)</th>
+        <th>가격 (RMB)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menu}}
+      <tr>
+        <td>{{name.chinese}}</td>
+        <td>{{name.english}}</td>
+        <td>{{name.korean}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/if}} {{else}}안녕하세요,이 중 하나를 당신이 번역 메뉴를 지불하지 않았거나 우리는 여전히 아직 지불을 정리하지 않은 것 같다. 로 이동하십시오 <a href="/pricing">가격</a> 자세한 내용은.{{/if}} {{else}}안녕하세요, 당신이 로그인하지 않은 것 같다.{{/if}}
+</template>
+<template name="admin_ko">
+  {{#if adminUser}} {{#if menuList}}
+  <div class="page-header">
+    <h2>관리자</h2>
+  </div>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>Restaurant Name (Chinese)</th>
+        <th>Restaurant Name (English)</th>
+        <th>Restaurant Name (Korean)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menus}}
+      <tr class="restaurant">
+        <td>{{restaurant.chinese}}</td>
+        <td>{{restaurant.english}}</td>
+        <td>{{restaurant.korean}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> Add Restaurant</button>
+  {{else}}
+  <div class="page-header">
+    <h2>{{restaurantName}}</h2>
+  </div>
+  <a href="/admin">Go Back</a>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>Food Name (Chinese)</th>
+        <th>Food Name (English)</th>
+        <th>Food Name (Korean)</th>
+        <th>Price (RMB)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each menu}}
+      <tr>
+        <td>{{name.chinese}}</td>
+        <td>{{name.english}}</td>
+        <td>{{name.korean}}</td>
+        <td>{{price}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div class="row">
+    {{>QrCode text=qrcode}}
+  </div>
+  {{/if}} {{else}} Hello, you do not seem to be an admin user. {{/if}}
+</template>
+<template name="footer_ko">
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">
+          <small>Dominick 에 의해 생성. 판권 소유.</small>
         </div>
       </div>
     </div>
