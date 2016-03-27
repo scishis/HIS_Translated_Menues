@@ -76,16 +76,16 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>Restaurant Name (Chinese)</th>
         <th>Restaurant Name (English)</th>
+        <th>Restaurant Name (Chinese)</th>
         <th>Restaurant Name (Korean)</th>
       </tr>
     </thead>
     <tbody>
       {{#each menus}}
       <tr class="restaurant">
-        <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.english}}</td>
+        <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.korean}}</td>
       </tr>
       {{/each}}
@@ -99,8 +99,8 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>Food Name (Chinese)</th>
         <th>Food Name (English)</th>
+        <th>Food Name (Chinese)</th>
         <th>Food Name (Korean)</th>
         <th>Price (RMB)</th>
       </tr>
@@ -108,8 +108,8 @@
     <tbody>
       {{#each menu}}
       <tr>
-        <td>{{name.chinese}}</td>
         <td>{{name.english}}</td>
+        <td>{{name.chinese}}</td>
         <td>{{name.korean}}</td>
         <td>{{price}}</td>
       </tr>
@@ -127,16 +127,16 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>Restaurant Name (Chinese)</th>
         <th>Restaurant Name (English)</th>
+        <th>Restaurant Name (Chinese)</th>
         <th>Restaurant Name (Korean)</th>
       </tr>
     </thead>
     <tbody>
       {{#each menus}}
       <tr class="restaurant">
-        <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.english}}</td>
+        <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.korean}}</td>
       </tr>
       {{/each}}
@@ -151,8 +151,8 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>Food Name (Chinese)</th>
         <th>Food Name (English)</th>
+        <th>Food Name (Chinese)</th>
         <th>Food Name (Korean)</th>
         <th>Price (RMB)</th>
       </tr>
@@ -160,8 +160,8 @@
     <tbody>
       {{#each menu}}
       <tr>
-        <td>{{name.chinese}}</td>
         <td>{{name.english}}</td>
+        <td>{{name.chinese}}</td>
         <td>{{name.korean}}</td>
         <td>{{price}}</td>
       </tr>
@@ -399,17 +399,17 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
+        <th>레스토랑 이름 (한국어)</th>
         <th>레스토랑 이름 (중국말)</th>
         <th>레스토랑 이름 (영어)</th>
-        <th>레스토랑 이름 (한국어)</th>
       </tr>
     </thead>
     <tbody>
       {{#each menus}}
       <tr class="restaurant">
+        <td>{{restaurant.korean}}</td>
         <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.english}}</td>
-        <td>{{restaurant.korean}}</td>
       </tr>
       {{/each}}
     </tbody>
@@ -422,18 +422,18 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
+        <th>식품명 (한국어)</th>
         <th>식품명 (중국말)</th>
         <th>식품명 (영어)</th>
-        <th>식품명 (한국어)</th>
         <th>가격 (RMB)</th>
       </tr>
     </thead>
     <tbody>
       {{#each menu}}
       <tr>
+        <td>{{name.korean}}</td>
         <td>{{name.chinese}}</td>
         <td>{{name.english}}</td>
-        <td>{{name.korean}}</td>
         <td>{{price}}</td>
       </tr>
       {{/each}}
@@ -449,27 +449,27 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>Restaurant Name (Chinese)</th>
-        <th>Restaurant Name (English)</th>
-        <th>Restaurant Name (Korean)</th>
+        <th>레스토랑 이름 (한국어)</th>
+        <th>레스토랑 이름 (중국말)</th>
+        <th>레스토랑 이름 (영어)</th>
       </tr>
     </thead>
     <tbody>
       {{#each menus}}
       <tr class="restaurant">
+        <td>{{restaurant.korean}}</td>
         <td>{{restaurant.chinese}}</td>
         <td>{{restaurant.english}}</td>
-        <td>{{restaurant.korean}}</td>
       </tr>
       {{/each}}
     </tbody>
   </table>
-  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> Add Restaurant</button>
+  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> 레스토랑 추가</button>
   {{else}}
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/admin">Go Back</a>
+  <a href="/admin">반환</a>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -493,7 +493,7 @@
   <div class="row">
     {{>QrCode text=qrcode}}
   </div>
-  {{/if}} {{else}} Hello, you do not seem to be an admin user. {{/if}}
+  {{/if}} {{else}안녕하세요, 당신은 관리자 사용자로하지 않는 것.{{/if}}
 </template>
 <template name="footer_ko">
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
