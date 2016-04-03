@@ -91,7 +91,7 @@ Template.admin_en.helpers({
       }).menu;
     },
     qrcode() {
-      return (Meteor.absoluteUrl("menus/" + Router.current().params.query.name));
+      return Meteor.absoluteUrl(`menus/${Router.current().params.query.name}`);
     }
 });
 Template.header_ch.helpers({
@@ -144,7 +144,7 @@ Template.admin_ch.helpers({
       }).menu;
     },
     qrcode() {
-      return (Meteor.absoluteUrl("menus/" + Router.current().params.query.name));
+      return Meteor.absoluteUrl(`menus/${Router.current().params.query.name}`);
     }
 });
 Template.header_ko.helpers({
@@ -197,7 +197,7 @@ Template.admin_ko.helpers({
       }).menu;
     },
     qrcode() {
-      return (Meteor.absoluteUrl("menus/" + Router.current().params.query.name));
+      return Meteor.absoluteUrl(`menus/${Router.current().params.query.name}`);
     }
 });
 Template.header_en.events({
@@ -207,16 +207,19 @@ Template.header_en.events({
     }
     Session.set("language", event.target.id.toLowerCase().slice(3, event.target.id.length));
     accountsUIBootstrap3.setLanguage(event.target.id.toLowerCase().slice(3, event.target.id.length) !== "chinese" ? event.target.id.toLowerCase().slice(3, 5) : "zh-CN");
+  },
+  "click #login-buttons-logout" () {
+    Router.go("/");
   }
 });
 Template.admin_en.events({
   "click .restaurant" () {
-    Router.go("/admin?name=" + this.restaurant.english.replace(/ /g, "_"));
+    Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.restaurants_en.events({
   "click .restaurant" () {
-    Router.go("/restaurants?name=" + this.restaurant.english.replace(/ /g, "_"));
+    Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.header_ch.events({
@@ -226,16 +229,19 @@ Template.header_ch.events({
     }
     Session.set("language", event.target.id.toLowerCase().slice(3, event.target.id.length));
     accountsUIBootstrap3.setLanguage(event.target.id.toLowerCase().slice(3, event.target.id.length) !== "chinese" ? event.target.id.toLowerCase().slice(3, 5) : "zh-CN");
+  },
+  "click #login-buttons-logout" () {
+    Router.go("/");
   }
 });
 Template.restaurants_ch.events({
   "click .restaurant" () {
-    Router.go("/restaurants?name=" + this.restaurant.english.replace(/ /g, "_"));
+    Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.admin_ch.events({
   "click .restaurant" () {
-    Router.go("/admin?name=" + this.restaurant.english.replace(/ /g, "_"));
+    Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.header_ko.events({
@@ -245,16 +251,19 @@ Template.header_ko.events({
     }
     Session.set("language", event.target.id.toLowerCase().slice(3, event.target.id.length));
     accountsUIBootstrap3.setLanguage(event.target.id.toLowerCase().slice(3, event.target.id.length) !== "chinese" ? event.target.id.toLowerCase().slice(3, 5) : "zh-CN");
+  },
+  "click #login-buttons-logout" () {
+    Router.go("/");
   }
 });
 Template.restaurants_ko.events({
   "click .restaurant" () {
-    Router.go("/restaurants?name=" + this.restaurant.english.replace(/ /g, "_"));
+    Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.admin_ko.events({
   "click .restaurant" () {
-    Router.go("/admin?name=" + this.restaurant.english.replace(/ /g, "_"));
+    Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Accounts.ui.config({
@@ -264,20 +273,20 @@ Router.configure({
   layoutTemplate: "main"
 });
 Router.route("/", function() {
-  this.render("home_" + Session.get("language").slice(0, 2));
+  this.render(`home_${Session.get("language").slice(0, 2)}`);
 });
 Router.route("/pricing", function() {
-  this.render("pricing_" + Session.get("language").slice(0, 2));
+  this.render(`pricing_${Session.get("language").slice(0, 2)}`);
 });
 Router.route("/restaurants", function() {
-  this.render("restaurants_" + Session.get("language").slice(0, 2));
+  this.render(`restaurants_${Session.get("language").slice(0, 2)}`);
 });
 Router.route("/restaurants?name=:english", function() {
-  this.render("restaurants_" + Session.get("language").slice(0, 2));
+  this.render(`restaurants_${Session.get("language").slice(0, 2)}`);
 });
 Router.route("/admin", function() {
-  this.render("admin_" + Session.get("language").slice(0, 2));
+  this.render(`admin_${Session.get("language").slice(0, 2)}`);
 });
 Router.route("/admin?name=:english", function() {
-  this.render("admin_" + Session.get("language").slice(0, 2));
+  this.render(`admin_${Session.get("language").slice(0, 2)}`);
 });

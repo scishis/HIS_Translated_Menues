@@ -361,7 +361,7 @@
           <li class="{{active}}"><a href="/">홈 페이지</a></li>
           <li class="{{active 'pricing'}}"><a href="/pricing">가격</a></li>
           {{#if currentUser}}
-          <li class="{{active 'restaurants'}}"><a href="/restaurants">레스토랑</a></li>
+          <li class="{{active 'restaurants'}}"><a href="/restaurants">음식점</a></li>
           {{#if adminUser}}
           <li class="{{active 'admin'}}"><a href="/admin">관리자</a></li>
           {{/if}} {{/if}}
@@ -394,14 +394,14 @@
 <template name="restaurants_ko">
   {{#if currentUser}} {{#if paidUser}} {{#if menuList}}
   <div class="page-header">
-    <h2>레스토랑</h2>
+    <h2>음식점</h2>
   </div>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>레스토랑 이름 (한국어)</th>
-        <th>레스토랑 이름 (중국말)</th>
-        <th>레스토랑 이름 (영어)</th>
+        <th>음식점 이름 (한국어)</th>
+        <th>음식점 이름 (중국말)</th>
+        <th>음식점 이름 (영어)</th>
       </tr>
     </thead>
     <tbody>
@@ -449,9 +449,9 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>레스토랑 이름 (한국어)</th>
-        <th>레스토랑 이름 (중국말)</th>
-        <th>레스토랑 이름 (영어)</th>
+        <th>음식점 이름 (한국어)</th>
+        <th>음식점 이름 (중국말)</th>
+        <th>음식점 이름 (영어)</th>
       </tr>
     </thead>
     <tbody>
@@ -464,7 +464,7 @@
       {{/each}}
     </tbody>
   </table>
-  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> 레스토랑 추가</button>
+  <button class="btn btn-primary" id="addRestaurant"><span class="glyphicon glyphicon-plus"></span> 음식점 추가</button>
   {{else}}
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
