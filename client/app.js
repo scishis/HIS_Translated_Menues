@@ -1,4 +1,9 @@
-/* global Router Menus accountsUIBootstrap3 */
+/* global Router accountsUIBootstrap3 bootbox $ */
+import {
+  Menus
+}
+from "../common.js";
+let selectedRestaurant;
 Meteor.startup(() => {
   if (Meteor.user() && Meteor.user().language) {
     Session.set("language", Meteor.user().language);
@@ -212,14 +217,56 @@ Template.header_en.events({
     Router.go("/");
   }
 });
-Template.admin_en.events({
-  "click .restaurant" () {
-    Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
+Template.restaurants_en.events({
+  "click .goToRestaurant" (e) {
+    e.preventDefault();
+    Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
-Template.restaurants_en.events({
-  "click .restaurant" () {
-    Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
+Template.admin_en.events({
+  "click .goToRestaurant" (e) {
+    e.preventDefault();
+    Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
+  },
+  "click #addRestaurant" () {
+    $("#addRestaurantModal").modal("show");
+  },
+  "click .editRestaurant" () {
+    selectedRestaurant = this._id;
+    $("#editRestaurantModal").modal("show");
+    $("#editEnglishName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.english);
+    $("#editChineseName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.chinese);
+    $("#editKoreanName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.korean);
+  },
+  "click #addRestaurantConfirm" (e) {
+    if ($("#addEnglishName").val() !== "" && $("#addChineseName").val() !== "" && $("#addKoreanName").val() !== "") {
+      let wait = bootbox.alert({
+        title: "Adding Restaurant",
+        message: "Please wait while a new restaurant is being added."
+      });
+      Meteor.call("addRestaurant", $("#addEnglishName").val(), $("#addChineseName").val(), $("#addKoreanName").val(), () => wait.modal("hide") && $("#addRestaurantModal").modal("hide"));
+    }
+    else {
+      bootbox.alert({
+        title: "Error",
+        message: "One or more of the fields are blank."
+      });
+    }
+  },
+  "click #editRestaurantConfirm" () {
+    if ($("#editEnglishName").val() !== "" && $("#editChineseName").val() !== "" && $("#editKoreanName").val() !== "") {
+      let wait = bootbox.alert({
+        title: "Editing Restaurant",
+        message: "Please wait while the restaurant is being edited."
+      });
+      Meteor.call("editRestaurant", selectedRestaurant, $("#editEnglishName").val(), $("#editChineseName").val(), $("#editKoreanName").val(), () => wait.modal("hide") && $("#editRestaurantModal").modal("hide"));
+    }
+    else {
+      bootbox.alert({
+        title: "Error",
+        message: "One or more of the fields are blank."
+      });
+    }
   }
 });
 Template.header_ch.events({
@@ -235,13 +282,55 @@ Template.header_ch.events({
   }
 });
 Template.restaurants_ch.events({
-  "click .restaurant" () {
+  "click .goToRestaurant" (e) {
+    e.preventDefault();
     Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.admin_ch.events({
-  "click .restaurant" () {
+  "click .goToRestaurant" (e) {
+    e.preventDefault();
     Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
+  },
+  "click #addRestaurant" () {
+    $("#addRestaurantModal").modal("show");
+  },
+  "click .editRestaurant" () {
+    selectedRestaurant = this._id;
+    $("#editRestaurantModal").modal("show");
+    $("#editChineseName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.chinese);
+    $("#editEnglishName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.english);
+    $("#editKoreanName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.korean);
+  },
+  "click #addRestaurantConfirm" (e) {
+    if ($("#addEnglishName").val() !== "" && $("#addChineseName").val() !== "" && $("#addKoreanName").val() !== "") {
+      let wait = bootbox.alert({
+        title: "添加餐馆",
+        message: "请稍候，正在添加新的餐馆。"
+      });
+      Meteor.call("addRestaurant", $("#addEnglishName").val(), $("#addChineseName").val(), $("#addKoreanName").val(), () => wait.modal("hide") && $("#addRestaurantModal").modal("hide"));
+    }
+    else {
+      bootbox.alert({
+        title: "错误",
+        message: "一个或多个名称是空白。"
+      });
+    }
+  },
+  "click #editRestaurantConfirm" () {
+    if ($("#editEnglishName").val() !== "" && $("#editChineseName").val() !== "" && $("#editKoreanName").val() !== "") {
+      let wait = bootbox.alert({
+        title: "编辑餐馆",
+        message: "请稍候，正在编辑餐馆。"
+      });
+      Meteor.call("editRestaurant", selectedRestaurant, $("#editEnglishName").val(), $("#editChineseName").val(), $("#editKoreanName").val(), () => wait.modal("hide") && $("#editRestaurantModal").modal("hide"));
+    }
+    else {
+      bootbox.alert({
+        title: "错误",
+        message: "一个或多个名称是空白。"
+      });
+    }
   }
 });
 Template.header_ko.events({
@@ -257,13 +346,55 @@ Template.header_ko.events({
   }
 });
 Template.restaurants_ko.events({
-  "click .restaurant" () {
+  "click .goToRestaurant" (e) {
+    e.preventDefault();
     Router.go(`/restaurants?name=${this.restaurant.english.replace(/ /g, "_")}`);
   }
 });
 Template.admin_ko.events({
-  "click .restaurant" () {
+  "click .goToRestaurant" (e) {
+    e.preventDefault();
     Router.go(`/admin?name=${this.restaurant.english.replace(/ /g, "_")}`);
+  },
+  "click #addRestaurant" () {
+    $("#addRestaurantModal").modal("show");
+  },
+  "click .editRestaurant" () {
+    selectedRestaurant = this._id;
+    $("#editRestaurantModal").modal("show");
+    $("#editKoreanName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.korean);
+    $("#editEnglishName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.english);
+    $("#editChineseName").val(Menus.findOne({_id: selectedRestaurant}).restaurant.chinese);
+  },
+  "click #addRestaurantConfirm" (e) {
+    if ($("#addEnglishName").val() !== "" && $("#addChineseName").val() !== "" && $("#addKoreanName").val() !== "") {
+      let wait = bootbox.alert({
+        title: "음식점 추가",
+        message: "새로운 레스토랑이 추가되는 동안 기다려주십시오."
+      });
+      Meteor.call("addRestaurant", $("#addEnglishName").val(), $("#addChineseName").val(), $("#addKoreanName").val(), () => wait.modal("hide") && $("#addRestaurantModal").modal("hide"));
+    }
+    else {
+      bootbox.alert({
+        title: "오류",
+        message: "하나 이상의 필드는 비어 있습니다."
+      });
+    }
+  },
+  "click #editRestaurantConfirm" () {
+    if ($("#editEnglishName").val() !== "" && $("#editChineseName").val() !== "" && $("#editKoreanName").val() !== "") {
+      let wait = bootbox.alert({
+        title: "편집 레스토랑",
+        message: "레스토랑 편집하는 동안 기다려주십시오."
+      });
+      Meteor.call("editRestaurant", selectedRestaurant, $("#editEnglishName").val(), $("#editChineseName").val(), $("#editKoreanName").val(), () => wait.modal("hide") && $("#editRestaurantModal").modal("hide"));
+    }
+    else {
+      bootbox.alert({
+        title: "오류",
+        message: "하나 이상의 필드는 비어 있습니다."
+      });
+    }
   }
 });
 Accounts.ui.config({
@@ -288,5 +419,5 @@ Router.route("/admin", function() {
   this.render(`admin_${Session.get("language").slice(0, 2)}`);
 });
 Router.route("/admin?name=:english", function() {
-  this.render(`admin_${Session.get("language").slice(0, 2)}`);
+  this.render(`/admin?name=${Session.get("language").slice(0, 2)}`);
 });

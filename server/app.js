@@ -1,4 +1,8 @@
-/* global Menus */
+/* global Random */
+import {
+  Menus
+}
+from "../common.js";
 Meteor.startup(() => {
   //testing purposes
   Meteor.users.update({
@@ -16,6 +20,7 @@ Meteor.startup(() => {
         korean: "작은 레스토랑"
       },
       menu: [{
+        _id: Random.id(),
         name: {
           chinese: "比萨",
           english: "Pizza",
@@ -23,6 +28,7 @@ Meteor.startup(() => {
         },
         price: 20
       }, {
+        _id: Random.id(),
         name: {
           chinese: "面包",
           english: "Bread",
@@ -38,6 +44,7 @@ Meteor.startup(() => {
         korean: "좋은 날 레스토랑"
       },
       menu: [{
+        _id: Random.id(),
         name: {
           chinese: "柠檬水",
           english: "Lemonade",
@@ -45,6 +52,7 @@ Meteor.startup(() => {
         },
         price: 5
       }, {
+        _id: Random.id(),
         name: {
           chinese: "比萨",
           english: "Pizza",
@@ -136,6 +144,51 @@ Meteor.startup(() => {
           $set: {
             language
           }
+        });
+      }
+    },
+    "addRestaurant" (english, chinese, korean) {
+      check([english, chinese, korean], [String]);
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
+        Menus.insert({
+          restaurant: {
+            english,
+            chinese,
+            korean
+          },
+          menu: []
+        });
+      }
+    },
+    "editRestaurant" (_id, english, chinese, korean) {
+      check([_id, english, chinese, korean], [String]);
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin && Menus.findOne({
+          _id
+        })) {
+        Menus.update({
+          _id
+        }, {
+          $set: {
+            restaurant: {
+              english,
+              chinese,
+              korean
+            }
+          }
+        });
+      }
+    },
+    "deleteRestaurant" (_id) {
+      check(_id, String);
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin) {
+        Menus.remove({
+          _id
         });
       }
     }

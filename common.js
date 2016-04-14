@@ -1,1 +1,1 @@
-Menus = new Mongo.Collection("menus");
+export let Menus = new Mongo.Collection("menus");
