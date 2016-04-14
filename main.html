@@ -490,7 +490,9 @@
     </tbody>
   </table>
   <div class="row">
-    {{>QrCode text=qrcode}}
+    <div class="col-md-12">
+      {{>QrCode text=qrcode}}
+    </div>
   </div>
   {{/if}} {{else}}您好，似乎您不是管理员。{{/if}}
 </template>
@@ -730,7 +732,9 @@
     </tbody>
   </table>
   <div class="row">
-    {{>QrCode text=qrcode}}
+    <div class="col-md-12">
+      {{>QrCode text=qrcode}}
+    </div>
   </div>
   {{/if}} {{else}}안녕하세요, 당신은 관리자 사용자로하지 않는 것.{{/if}}
 </template>
