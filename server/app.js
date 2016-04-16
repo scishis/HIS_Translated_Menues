@@ -191,6 +191,78 @@ Meteor.startup(() => {
           _id
         });
       }
+    },
+    "addFood" (_id, english, chinese, korean, price) {
+      check([_id, english, chinese, korean], [String]);
+      check(price, Match.Integer);
+      check(price, Match.Where((a) => a >= 0));
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin && Menus.findOne({
+          _id
+        })) {
+        Menus.update({
+          _id
+        }, {
+          $push: {
+            menu: {
+              _id: Random.id(),
+              name: {
+                english,
+                chinese,
+                korean
+              },
+              price
+            }
+          }
+        });
+      }
+    },
+    "editFood" (_id, food, english, chinese, korean, price) {
+      check([_id, food, english, chinese, korean], [String]);
+      check(price, Match.Integer);
+      check(price, Match.Where((a) => a >= 0));
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin && Menus.findOne({
+          _id
+        })) {
+        Menus.update({
+          _id
+        }, {
+          $set: {
+            [`menu.${Menus.findOne({
+          _id
+        }).menu.findIndex((a) => a._id === food)}`]: {
+              _id: food,
+              name: {
+                english,
+                chinese,
+                korean
+              },
+              price
+            }
+          }
+        });
+      }
+    },
+    "deleteFood" (_id, food) {
+      check([_id, food], [String]);
+      if (Meteor.users.findOne({
+          _id: this.userId
+        }).admin && Menus.findOne({
+          _id
+        })) {
+        Menus.update({
+          _id
+        }, {
+          $pull: {
+            menu: {
+              _id: food
+            }
+          }
+        });
+      }
     }
   });
   Meteor.publish("menus", function() {

@@ -95,7 +95,9 @@
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/restaurants">Go Back</a>
+  <div>
+    <a href="/restaurants">Go Back</a>
+  </div>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -245,7 +247,10 @@
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/admin">Go Back</a>
+  <div>
+    <a href="/admin">Go Back</a>
+  </div>
+  <button class="btn btn-primary" id="addFood"><span class="glyphicon glyphicon-plus"></span> Add</button>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -253,6 +258,7 @@
         <th>Food Name (Chinese)</th>
         <th>Food Name (Korean)</th>
         <th>Price (RMB)</th>
+        <th>Edit</th>
       </tr>
     </thead>
     <tbody>
@@ -262,6 +268,10 @@
         <td>{{name.chinese}}</td>
         <td>{{name.korean}}</td>
         <td>{{price}}</td>
+        <td>
+          <button class="btn btn-primary editFood"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+          <button class="btn btn-danger deleteFood"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </td>
       </tr>
       {{/each}}
     </tbody>
@@ -269,6 +279,99 @@
   <div class="row">
     <div class="col-md-12">
       {{>QrCode text=qrcode}}
+    </div>
+  </div>
+  <div class="modal fade" id="addFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Food</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="addEnglishName">
+                English Name
+              </label>
+              <input class="form-control" id="addEnglishName" placeholder="English Name" />
+            </div>
+            <div class="form-group">
+              <label for="addChineseName">
+                Chinese Name
+              </label>
+              <input class="form-control" id="addChineseName" placeholder="Chinese Name" />
+            </div>
+            <div class="form-group">
+              <label for="addKoreanName">
+                Korean Name
+              </label>
+              <input class="form-control" id="addKoreanName" placeholder="Korean Name" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="addFoodConfirm">
+            <span class="glyphicon glyphicon-plus"></span> Add Food
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="editFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Food</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="editEnglishName">
+                English Name
+              </label>
+              <input class="form-control" id="editEnglishName" placeholder="English Name" />
+            </div>
+            <div class="form-group">
+              <label for="editChineseName">
+                Chinese Name
+              </label>
+              <input class="form-control" id="editChineseName" placeholder="Chinese Name" />
+            </div>
+            <div class="form-group">
+              <label for="editKoreanName">
+                Korean Name
+              </label>
+              <input class="form-control" id="editKoreanName" placeholder="Korean Name" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="editFoodConfirm">
+            <span class="glyphicon glyphicon-edit"></span> Edit Food
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="deleteFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Food</h4>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this food (<span id="deleteFoodName"></span>)? This cannot be undone. Type "Delete Food" in the following box.
+          <input class="form-control" id="deleteInput" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" id="deleteFoodConfirm" disabled>
+            <span class="glyphicon glyphicon-trash"></span> Delete Food
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   {{/if}} {{else}} Hello, you do not seem to be an admin user. {{/if}}
@@ -357,7 +460,9 @@
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/restaurants">返回</a>
+  <div>
+    <a href="/restaurants">返回</a>
+  </div>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -506,7 +611,9 @@
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/admin">返回</a>
+  <div>
+    <a href="/admin">返回</a>
+  </div>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -618,7 +725,9 @@
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/restaurants">반환</a>
+  <div>
+    <a href="/restaurants">반환</a>
+  </div>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -767,7 +876,9 @@
   <div class="page-header">
     <h2>{{restaurantName}}</h2>
   </div>
-  <a href="/admin">반환</a>
+  <div>
+    <a href="/admin">반환</a>
+  </div>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
