@@ -233,7 +233,7 @@
         </div>
         <div class="modal-body">
           Are you sure you want to delete this restaurant (<span id="deleteRestaurantName"></span>) and the menu associated with this restaurant? This cannot be undone. Type "Delete Restaurant" in the following box.
-          <input class="form-control" id="deleteInput" />
+          <input class="form-control" id="deleteRestaurantInput" />
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger" id="deleteRestaurantConfirm" disabled>
@@ -308,6 +308,12 @@
               </label>
               <input class="form-control" id="addKoreanName" placeholder="Korean Name" />
             </div>
+            <div class="form-group">
+              <label for="addPrice">
+                Price (RMB)
+              </label>
+              <input type="number" class="form-control" id="addPrice" placeholder="Price" />
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -345,6 +351,12 @@
               </label>
               <input class="form-control" id="editKoreanName" placeholder="Korean Name" />
             </div>
+            <div class="form-group">
+              <label for="editPrice">
+                Price (RMB)
+              </label>
+              <input type="number" class="form-control" id="editPrice" placeholder="Price" />
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -364,7 +376,7 @@
         </div>
         <div class="modal-body">
           Are you sure you want to delete this food (<span id="deleteFoodName"></span>)? This cannot be undone. Type "Delete Food" in the following box.
-          <input class="form-control" id="deleteInput" />
+          <input class="form-control" id="deleteFoodInput" />
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger" id="deleteFoodConfirm" disabled>
@@ -441,9 +453,9 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>餐馆名称 (中文)</th>
-        <th>餐馆名称 (英文)</th>
-        <th>餐馆名称 (韩文)</th>
+        <th>餐馆名称（中文）</th>
+        <th>餐馆名称（英文）</th>
+        <th>餐馆名称（韩文）</th>
       </tr>
     </thead>
     <tbody>
@@ -466,10 +478,10 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>食品名称 (中文)</th>
-        <th>食品名称 (英文)</th>
-        <th>食品名称 (韩文)</th>
-        <th>价格 (RMB)</th>
+        <th>食品名称（中文）</th>
+        <th>食品名称（英文）</th>
+        <th>食品名称（韩文）</th>
+        <th>价格（RMB）</th>
       </tr>
     </thead>
     <tbody>
@@ -494,9 +506,9 @@
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>餐馆名称 (中文)</th>
-        <th>餐馆名称 (英文)</th>
-        <th>餐馆名称 (韩文)</th>
+        <th>餐馆名称（中文）</th>
+        <th>餐馆名称（英文）</th>
+        <th>餐馆名称（韩文）</th>
         <th>编辑</th>
       </tr>
     </thead>
@@ -527,19 +539,19 @@
               <label for="addChineseName">
                 中文名
               </label>
-              <input class="form-control" id="addChineseName" placeholder="Chinese Name" />
+              <input class="form-control" id="addChineseName" placeholder="中文名" />
             </div>
             <div class="form-group">
               <label for="addEnglishName">
                 英文名
               </label>
-              <input class="form-control" id="addEnglishName" placeholder="English Name" />
+              <input class="form-control" id="addEnglishName" placeholder="英文名" />
             </div>
             <div class="form-group">
               <label for="addKoreanName">
                 韩文名
               </label>
-              <input class="form-control" id="addKoreanName" placeholder="Korean Name" />
+              <input class="form-control" id="addKoreanName" placeholder="韩文名" />
             </div>
           </form>
         </div>
@@ -564,19 +576,19 @@
               <label for="editChineseName">
                 中文名
               </label>
-              <input class="form-control" id="editChineseName" placeholder="Chinese Name" />
+              <input class="form-control" id="editChineseName" placeholder="中文名" />
             </div>
             <div class="form-group">
               <label for="editEnglishName">
                 英文名
               </label>
-              <input class="form-control" id="editEnglishName" placeholder="English Name" />
+              <input class="form-control" id="editEnglishName" placeholder="英文名" />
             </div>
             <div class="form-group">
               <label for="editKoreanName">
                 韩文名
               </label>
-              <input class="form-control" id="editKoreanName" placeholder="Korean Name" />
+              <input class="form-control" id="editKoreanName" placeholder="韩文名" />
             </div>
           </form>
         </div>
@@ -597,7 +609,7 @@
         </div>
         <div class="modal-body">
           你确定要删除这家餐馆（<span id="deleteRestaurantName"></span>）并与这家餐馆相关的菜单？这不能被撤消。在下面的框中键入“删除餐馆”。
-          <input class="form-control" id="deleteInput" />
+          <input class="form-control" id="deleteRestaurantInput" />
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger" id="deleteRestaurantConfirm" disabled>
@@ -614,13 +626,15 @@
   <div>
     <a href="/admin">返回</a>
   </div>
+  <button class="btn btn-primary" id="addFood"><span class="glyphicon glyphicon-plus"></span> 添加</button>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
-        <th>食品名称 (中文)</th>
-        <th>食品名称 (英文)</th>
-        <th>食品名称 (韩文)</th>
-        <th>价格 (RMB)</th>
+        <th>食品名称（中文）</th>
+        <th>食品名称（英文）</th>
+        <th>食品名称（韩文）</th>
+        <th>价格（RMB）</th>
+        <th>编辑</th>
       </tr>
     </thead>
     <tbody>
@@ -630,6 +644,10 @@
         <td>{{name.english}}</td>
         <td>{{name.korean}}</td>
         <td>{{price}}</td>
+        <td>
+          <button class="btn btn-primary editFood"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+          <button class="btn btn-danger deleteFood"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+        </td>
       </tr>
       {{/each}}
     </tbody>
@@ -637,6 +655,111 @@
   <div class="row">
     <div class="col-md-12">
       {{>QrCode text=qrcode}}
+    </div>
+  </div>
+  <div class="modal fade" id="addFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">添加食品</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="addChineseName">
+                中文名
+              </label>
+              <input class="form-control" id="addChineseName" placeholder="中文名" />
+            </div>
+            <div class="form-group">
+              <label for="addEnglishName">
+                英文名
+              </label>
+              <input class="form-control" id="addEnglishName" placeholder="英文名" />
+            </div>
+            <div class="form-group">
+              <label for="addKoreanName">
+                韩文名
+              </label>
+              <input class="form-control" id="addKoreanName" placeholder="韩文名" />
+            </div>
+            <div class="form-group">
+              <label for="addPrice">
+                价格（RMB）
+              </label>
+              <input type="number" class="form-control" id="addPrice" placeholder="价格" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="addFoodConfirm">
+            <span class="glyphicon glyphicon-plus"></span> 添加食品
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="editFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">编辑食品</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="editChineseName">
+                中文名
+              </label>
+              <input class="form-control" id="editChineseName" placeholder="中文名" />
+            </div>
+            <div class="form-group">
+              <label for="editEnglishName">
+                英文名
+              </label>
+              <input class="form-control" id="editEnglishName" placeholder="英文名" />
+            </div>
+            <div class="form-group">
+              <label for="editKoreanName">
+                韩文名
+              </label>
+              <input class="form-control" id="editKoreanName" placeholder="韩文名" />
+            </div>
+            <div class="form-group">
+              <label for="editPrice">
+                价格（RMB）
+              </label>
+              <input type="number" class="form-control" id="editPrice" placeholder="价格" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="editFoodConfirm">
+            <span class="glyphicon glyphicon-edit"></span> 编辑食品
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="deleteFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">删除食品</h4>
+        </div>
+        <div class="modal-body">
+          你确定要删除这个食品（<span id="deleteFoodName"></span>）？这不能被撤消。在下面的框中键入“删除食品”。
+          <input class="form-control" id="deleteFoodInput" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" id="deleteFoodConfirm" disabled>
+            <span class="glyphicon glyphicon-trash"></span> 删除食品
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   {{/if}} {{else}}您好，似乎您不是管理员。{{/if}}
@@ -792,19 +915,19 @@
               <label for="addKoreanName">
                 한국어 이름
               </label>
-              <input class="form-control" id="addKoreanName" placeholder="Korean Name" />
+              <input class="form-control" id="addKoreanName" placeholder="한국어 이름" />
             </div>
             <div class="form-group">
               <label for="addEnglishName">
                 영어 이름
               </label>
-              <input class="form-control" id="addEnglishName" placeholder="English Name" />
+              <input class="form-control" id="addEnglishName" placeholder="영어 이름" />
             </div>
             <div class="form-group">
               <label for="addChineseName">
                 중국어 이름
               </label>
-              <input class="form-control" id="addChineseName" placeholder="Chinese Name" />
+              <input class="form-control" id="addChineseName" placeholder="중국어 이름" />
             </div>
           </form>
         </div>
@@ -829,19 +952,19 @@
               <label for="editKoreanName">
                 한국어 이름
               </label>
-              <input class="form-control" id="editKoreanName" placeholder="Korean Name" />
+              <input class="form-control" id="editKoreanName" placeholder="한국어 이름" />
             </div>
             <div class="form-group">
               <label for="editEnglishName">
                 영어 이름
               </label>
-              <input class="form-control" id="editEnglishName" placeholder="English Name" />
+              <input class="form-control" id="editEnglishName" placeholder="영어 이름" />
             </div>
             <div class="form-group">
               <label for="editChineseName">
                 중국어 이름
               </label>
-              <input class="form-control" id="editChineseName" placeholder="Chinese Name" />
+              <input class="form-control" id="editChineseName" placeholder="중국어 이름" />
             </div>
           </form>
         </div>
@@ -862,7 +985,7 @@
         </div>
         <div class="modal-body">
           당신은 당신이 레스토랑을 삭제 하시겠습니까 (<span id="deleteRestaurantName"></span>) 메뉴는이 레스토랑과 관련된? 이 취소 할 수 없습니다. 다음을 입력 상자에 "음식점 삭제".
-          <input class="form-control" id="deleteInput" />
+          <input class="form-control" id="deleteRestaurantInput" />
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger" id="deleteRestaurantConfirm" disabled>
@@ -879,6 +1002,7 @@
   <div>
     <a href="/admin">반환</a>
   </div>
+  <button class="btn btn-primary" id="addFood"><span class="glyphicon glyphicon-plus"></span> 더하다</button>
   <table class="table table-striped table-hover table-bordered">
     <thead>
       <tr>
@@ -886,6 +1010,7 @@
         <th>식품명 (중국말)</th>
         <th>식품명 (영어)</th>
         <th>가격 (RMB)</th>
+        <th>지우다</th>
       </tr>
     </thead>
     <tbody>
@@ -895,6 +1020,10 @@
         <td>{{name.chinese}}</td>
         <td>{{name.english}}</td>
         <td>{{price}}</td>
+        <td>
+          <button class="btn btn-primary editFood"><span class="glyphicon glyphicon-edit"></span> 편집하다</button>
+          <button class="btn btn-danger deleteFood"><span class="glyphicon glyphicon-trash"></span> 지우다</button>
+        </td>
       </tr>
       {{/each}}
     </tbody>
@@ -902,6 +1031,111 @@
   <div class="row">
     <div class="col-md-12">
       {{>QrCode text=qrcode}}
+    </div>
+  </div>
+  <div class="modal fade" id="addFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">음식을 추가</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="addKoreanName">
+                한국어 이름
+              </label>
+              <input class="form-control" id="addKoreanName" placeholder="한국어 이름" />
+            </div>
+            <div class="form-group">
+              <label for="addEnglishName">
+                영어 이름
+              </label>
+              <input class="form-control" id="addEnglishName" placeholder="영어 이름" />
+            </div>
+            <div class="form-group">
+              <label for="addChineseName">
+                중국어 이름
+              </label>
+              <input class="form-control" id="addChineseName" placeholder="중국어 이름" />
+            </div>
+            <div class="form-group">
+              <label for="addPrice">
+                가격 (RMB)
+              </label>
+              <input type="number" class="form-control" id="addPrice" placeholder="가격" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="addFoodConfirm">
+            <span class="glyphicon glyphicon-plus"></span> 편집 음식을
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="editFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">편집 음식을</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="editKoreanName">
+                한국어 이름
+              </label>
+              <input class="form-control" id="editKoreanName" placeholder="한국어 이름" />
+            </div>
+            <div class="form-group">
+              <label for="editEnglishName">
+                영어 이름
+              </label>
+              <input class="form-control" id="editEnglishName" placeholder="영어 이름" />
+            </div>
+            <div class="form-group">
+              <label for="editChineseName">
+                중국어 이름
+              </label>
+              <input class="form-control" id="editChineseName" placeholder="중국어 이름" />
+            </div>
+            <div class="form-group">
+              <label for="editPrice">
+                가격 (RMB)
+              </label>
+              <input type="number" class="form-control" id="editPrice" placeholder="가격" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="editFoodConfirm">
+            <span class="glyphicon glyphicon-edit"></span> 편집 음식을
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="deleteFoodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">음식을 삭제</h4>
+        </div>
+        <div class="modal-body">
+          당신은 당신이 음식을 삭제 하시겠습니까 (<span id="deleteFoodName"></span>)? 이 취소 할 수 없습니다. 다음을 입력 상자에 "음식을 삭제".
+          <input class="form-control" id="deleteFoodInput" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" id="deleteFoodConfirm" disabled>
+            <span class="glyphicon glyphicon-trash"></span> 음식을 삭제
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   {{/if}} {{else}}안녕하세요, 당신은 관리자 사용자로하지 않는 것.{{/if}}

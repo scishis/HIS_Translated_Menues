@@ -4,6 +4,7 @@ import {
 }
 from "../common.js";
 let selectedRestaurant;
+let selectedFood;
 Meteor.startup(() => {
   if (Meteor.user() && Meteor.user().language) {
     Session.set("language", Meteor.user().language);
@@ -230,6 +231,9 @@ Template.admin_en.events({
   },
   "click #addRestaurant" () {
     $("#addRestaurantModal").modal("show");
+    $("#addEnglishName").val("");
+    $("#addChineseName").val("");
+    $("#addKoreanName").val("");
   },
   "click .editRestaurant" () {
     selectedRestaurant = this._id;
@@ -250,7 +254,7 @@ Template.admin_en.events({
     $("#deleteRestaurantName").html(Menus.findOne({
       _id: selectedRestaurant
     }).restaurant.english);
-    $("#deleteInput").val("");
+    $("#deleteRestaurantInput").val("");
     $("#deleteRestaurantConfirm").prop("disabled", true);
   },
   "click #addRestaurantConfirm" (e) {
@@ -283,16 +287,106 @@ Template.admin_en.events({
       });
     }
   },
-  "keyup #deleteInput" () {
-    $("#deleteRestaurantConfirm").prop("disabled", $("#deleteInput").val() !== "Delete Restaurant");
+  "keyup #deleteRestaurantInput" () {
+    $("#deleteRestaurantConfirm").prop("disabled", $("#deleteRestaurantInput").val() !== "Delete Restaurant");
   },
   "click #deleteRestaurantConfirm" () {
-    if ($("#deleteInput").val() === "Delete Restaurant") {
+    if ($("#deleteRestaurantInput").val() === "Delete Restaurant") {
       let wait = bootbox.alert({
         title: "Deleting Restaurant",
         message: "Please wait while the restaurant is being deleted."
       });
       Meteor.call("deleteRestaurant", selectedRestaurant, () => wait.modal("hide") && $("#deleteRestaurantModal").modal("hide"));
+    }
+  },
+  "click #addFood" () {
+    $("#addFoodModal").modal("show");
+    $("#addEnglishName").val("");
+    $("#addChineseName").val("");
+    $("#addKoreanName").val("");
+    $("#addPrice").val("");
+  },
+  "click .editFood" () {
+    selectedFood = this._id;
+    $("#editFoodModal").modal("show");
+    $("#editEnglishName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.english);
+    $("#editChineseName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.chinese);
+    $("#editKoreanName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.korean);
+    $("#editPrice").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).price);
+  },
+  "click .deleteFood" () {
+    selectedFood = this._id;
+    $("#deleteFoodModal").modal("show");
+    $("#deleteFoodName").html(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.english);
+    $("#deleteFoodInput").val("");
+    $("#deleteFoodConfirm").prop("disabled", true);
+  },
+  "click #addFoodConfirm" (e) {
+    if ($("#addEnglishName").val() !== "" && $("#addChineseName").val() !== "" && $("#addKoreanName").val() !== "" && $("#addPrice").val() !== "") {
+      if (parseFloat($("#addPrice").val()) >= 0 && Number.isFinite(parseFloat($("#addPrice").val()))) {
+        let wait = bootbox.alert({
+          title: "Adding Food",
+          message: "Please wait while a new food is being added."
+        });
+        Meteor.call("addFood", Router.current().params.query._id, $("#addEnglishName").val(), $("#addChineseName").val(), $("#addKoreanName").val(), parseFloat($("#addPrice").val()), () => wait.modal("hide") && $("#addFoodModal").modal("hide"));
+      }
+      else {
+        bootbox.alert({
+          title: "Error",
+          message: "The price must be a number greater than or equal to zero."
+        });
+      }
+    }
+    else {
+      bootbox.alert({
+        title: "Error",
+        message: "One or more of the fields are blank."
+      });
+    }
+  },
+  "click #editFoodConfirm" () {
+    if ($("#editEnglishName").val() !== "" && $("#editChineseName").val() !== "" && $("#editKoreanName").val() !== "" && $("#editPrice").val() !== "") {
+      if (parseFloat($("#editPrice").val()) >= 0 && Number.isFinite(parseFloat($("#editPrice").val()))) {
+        let wait = bootbox.alert({
+          title: "Editing Food",
+          message: "Please wait while the food is being edited."
+        });
+        Meteor.call("editFood", Router.current().params.query._id, selectedFood, $("#editEnglishName").val(), $("#editChineseName").val(), $("#editKoreanName").val(), parseFloat($("#editPrice").val()), () => wait.modal("hide") && $("#editFoodModal").modal("hide"));
+      }
+      else {
+        bootbox.alert({
+          title: "Error",
+          message: "The price must be a number greater than or equal to zero."
+        });
+      }
+    }
+    else {
+      bootbox.alert({
+        title: "Error",
+        message: "One or more of the fields are blank."
+      });
+    }
+  },
+  "keyup #deleteFoodInput" () {
+    $("#deleteFoodConfirm").prop("disabled", $("#deleteFoodInput").val() !== "Delete Food");
+  },
+  "click #deleteFoodConfirm" () {
+    if ($("#deleteFoodInput").val() === "Delete Food") {
+      let wait = bootbox.alert({
+        title: "Deleting Food",
+        message: "Please wait while the food is being deleted."
+      });
+      Meteor.call("deleteFood", Router.current().params.query._id, selectedFood, () => wait.modal("hide") && $("#deleteFoodModal").modal("hide"));
     }
   }
 });
@@ -321,6 +415,9 @@ Template.admin_ch.events({
   },
   "click #addRestaurant" () {
     $("#addRestaurantModal").modal("show");
+    $("#addChineseName").val("");
+    $("#addEnglishName").val("");
+    $("#addKoreanName").val("");
   },
   "click .editRestaurant" () {
     selectedRestaurant = this._id;
@@ -341,7 +438,7 @@ Template.admin_ch.events({
     $("#deleteRestaurantName").html(Menus.findOne({
       _id: selectedRestaurant
     }).restaurant.chinese);
-    $("#deleteInput").val("");
+    $("#deleteRestaurantInput").val("");
     $("#deleteRestaurantConfirm").prop("disabled", true);
   },
   "click #addRestaurantConfirm" (e) {
@@ -374,16 +471,106 @@ Template.admin_ch.events({
       });
     }
   },
-  "keyup #deleteInput" () {
-    $("#deleteRestaurantConfirm").prop("disabled", $("#deleteInput").val() !== "删除餐馆");
+  "keyup #deleteRestaurantInput" () {
+    $("#deleteRestaurantConfirm").prop("disabled", $("#deleteRestaurantInput").val() !== "删除餐馆");
   },
   "click #deleteRestaurantConfirm" () {
-    if ($("#deleteInput").val() === "删除餐馆") {
+    if ($("#deleteRestaurantInput").val() === "删除餐馆") {
       let wait = bootbox.alert({
         title: "删除餐馆",
         message: "请稍候，正在删除餐馆。"
       });
       Meteor.call("deleteRestaurant", selectedRestaurant, () => wait.modal("hide") && $("#deleteRestaurantModal").modal("hide"));
+    }
+  },
+  "click #addFood" () {
+    $("#addFoodModal").modal("show");
+    $("#addChineseName").val("");
+    $("#addEnglishName").val("");
+    $("#addKoreanName").val("");
+    $("#addPrice").val("");
+  },
+  "click .editFood" () {
+    selectedFood = this._id;
+    $("#editFoodModal").modal("show");
+    $("#editChineseName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.chinese);
+    $("#editEnglishName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.english);
+    $("#editKoreanName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.korean);
+    $("#editPrice").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).price);
+  },
+  "click .deleteFood" () {
+    selectedFood = this._id;
+    $("#deleteFoodModal").modal("show");
+    $("#deleteFoodName").html(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.chinese);
+    $("#deleteFoodInput").val("");
+    $("#deleteFoodConfirm").prop("disabled", true);
+  },
+  "click #addFoodConfirm" (e) {
+    if ($("#addEnglishName").val() !== "" && $("#addChineseName").val() !== "" && $("#addKoreanName").val() !== "" && $("#addPrice").val() !== "") {
+      if (parseFloat($("#addPrice").val()) >= 0 && Number.isFinite(parseFloat($("#addPrice").val()))) {
+        let wait = bootbox.alert({
+          title: "添加食品",
+          message: "请稍候，正在添加新的食品。"
+        });
+        Meteor.call("addFood", Router.current().params.query._id, $("#addEnglishName").val(), $("#addChineseName").val(), $("#addKoreanName").val(), parseFloat($("#addPrice").val()), () => wait.modal("hide") && $("#addFoodModal").modal("hide"));
+      }
+      else {
+        bootbox.alert({
+          title: "错误",
+          message: "价格必须是一个大于或等于零的数。"
+        });
+      }
+    }
+    else {
+      bootbox.alert({
+        title: "错误",
+        message: "一个或多个名称是空白。"
+      });
+    }
+  },
+  "click #editFoodConfirm" () {
+    if ($("#editEnglishName").val() !== "" && $("#editChineseName").val() !== "" && $("#editKoreanName").val() !== "" && $("#editPrice").val() !== "") {
+      if (parseFloat($("#editPrice").val()) >= 0 && Number.isFinite(parseFloat($("#editPrice").val()))) {
+        let wait = bootbox.alert({
+          title: "编辑食品",
+          message: "请稍候，正在编辑食品。"
+        });
+        Meteor.call("editFood", Router.current().params.query._id, selectedFood, $("#editEnglishName").val(), $("#editChineseName").val(), $("#editKoreanName").val(), parseFloat($("#editPrice").val()), () => wait.modal("hide") && $("#editFoodModal").modal("hide"));
+      }
+      else {
+        bootbox.alert({
+          title: "错误",
+          message: "价格必须是一个大于或等于零的数。"
+        });
+      }
+    }
+    else {
+      bootbox.alert({
+        title: "错误",
+        message: "一个或多个名称是空白。"
+      });
+    }
+  },
+  "keyup #deleteFoodInput" () {
+    $("#deleteFoodConfirm").prop("disabled", $("#deleteFoodInput").val() !== "删除食品");
+  },
+  "click #deleteFoodConfirm" () {
+    if ($("#deleteFoodInput").val() === "删除食品") {
+      let wait = bootbox.alert({
+        title: "删除食品",
+        message: "请稍候，正在删除食品。"
+      });
+      Meteor.call("deleteFood", Router.current().params.query._id, selectedFood, () => wait.modal("hide") && $("#deleteFoodModal").modal("hide"));
     }
   }
 });
@@ -412,6 +599,9 @@ Template.admin_ko.events({
   },
   "click #addRestaurant" () {
     $("#addRestaurantModal").modal("show");
+    $("#addKoreanName").val("");
+    $("#addEnglishName").val("");
+    $("#addChineseName").val("");
   },
   "click .editRestaurant" () {
     selectedRestaurant = this._id;
@@ -432,7 +622,7 @@ Template.admin_ko.events({
     $("#deleteRestaurantName").html(Menus.findOne({
       _id: selectedRestaurant
     }).restaurant.korean);
-    $("#deleteInput").val("");
+    $("#deleteRestaurantInput").val("");
     $("#deleteRestaurantConfirm").prop("disabled", true);
   },
   "click #addRestaurantConfirm" (e) {
@@ -465,16 +655,106 @@ Template.admin_ko.events({
       });
     }
   },
-  "keyup #deleteInput" () {
-    $("#deleteRestaurantConfirm").prop("disabled", $("#deleteInput").val() !== "음식점 삭제");
+  "keyup #deleteRestaurantInput" () {
+    $("#deleteRestaurantConfirm").prop("disabled", $("#deleteRestaurantInput").val() !== "음식점 삭제");
   },
   "click #deleteRestaurantConfirm" () {
-    if ($("#deleteInput").val() === "음식점 삭제") {
+    if ($("#deleteRestaurantInput").val() === "음식점 삭제") {
       let wait = bootbox.alert({
         title: "삭제 음식점",
         message: "음식점이 삭제되는 동안 잠시 기다려주십시오."
       });
       Meteor.call("deleteRestaurant", selectedRestaurant, () => wait.modal("hide") && $("#deleteRestaurantModal").modal("hide"));
+    }
+  },
+  "click #addFood" () {
+    $("#addFoodModal").modal("show");
+    $("#addKoreanName").val("");
+    $("#addEnglishName").val("");
+    $("#addChineseName").val("");
+    $("#addPrice").val("");
+  },
+  "click .editFood" () {
+    selectedFood = this._id;
+    $("#editFoodModal").modal("show");
+    $("#editKoreanName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.korean);
+    $("#editEnglishName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.english);
+    $("#editChineseName").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.chinese);
+    $("#editPrice").val(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).price);
+  },
+  "click .deleteFood" () {
+    selectedFood = this._id;
+    $("#deleteFoodModal").modal("show");
+    $("#deleteFoodName").html(Menus.findOne({
+      _id: Router.current().params.query._id
+    }).menu.find((a) => a._id === selectedFood).name.korean);
+    $("#deleteFoodInput").val("");
+    $("#deleteFoodConfirm").prop("disabled", true);
+  },
+  "click #addFoodConfirm" (e) {
+    if ($("#addEnglishName").val() !== "" && $("#addChineseName").val() !== "" && $("#addKoreanName").val() !== "" && $("#addPrice").val() !== "") {
+      if (parseFloat($("#addPrice").val()) >= 0 && Number.isFinite(parseFloat($("#addPrice").val()))) {
+        let wait = bootbox.alert({
+          title: "음식을 추가",
+          message: "새로운 음식을을 추가하는 동안 기다려주십시오."
+        });
+        Meteor.call("addFood", Router.current().params.query._id, $("#addEnglishName").val(), $("#addChineseName").val(), $("#addKoreanName").val(), parseFloat($("#addPrice").val()), () => wait.modal("hide") && $("#addFoodModal").modal("hide"));
+      }
+      else {
+        bootbox.alert({
+          title: "오류",
+          message: "가격은 숫자 0보다 크거나 동일해야한다."
+        });
+      }
+    }
+    else {
+      bootbox.alert({
+        title: "오류",
+        message: "One or more of the fields are blank."
+      });
+    }
+  },
+  "click #editFoodConfirm" () {
+    if ($("#editEnglishName").val() !== "" && $("#editChineseName").val() !== "" && $("#editKoreanName").val() !== "" && $("#editPrice").val() !== "") {
+      if (parseFloat($("#editPrice").val()) >= 0 && Number.isFinite(parseFloat($("#editPrice").val()))) {
+        let wait = bootbox.alert({
+          title: "Editing Food",
+          message: "Please wait while the food is being edited."
+        });
+        Meteor.call("editFood", Router.current().params.query._id, selectedFood, $("#editEnglishName").val(), $("#editChineseName").val(), $("#editKoreanName").val(), parseFloat($("#editPrice").val()), () => wait.modal("hide") && $("#editFoodModal").modal("hide"));
+      }
+      else {
+        bootbox.alert({
+          title: "오류",
+          message: "가격은 숫자 0보다 크거나 동일해야한다."
+        });
+      }
+    }
+    else {
+      bootbox.alert({
+        title: "오류",
+        message: "하나 이상의 필드는 비어 있습니다."
+      });
+    }
+  },
+  "keyup #deleteFoodInput" () {
+    $("#deleteFoodConfirm").prop("disabled", $("#deleteFoodInput").val() !== "음식을 삭제");
+  },
+  "click #deleteFoodConfirm" () {
+    if ($("#deleteFoodInput").val() === "음식을 삭제") {
+      let wait = bootbox.alert({
+        title: "삭제 음식을",
+        message: "음식이 삭제되는 동안 잠시 기다려주십시오."
+      });
+      Meteor.call("deleteFood", Router.current().params.query._id, selectedFood, () => wait.modal("hide") && $("#deleteFoodModal").modal("hide"));
     }
   }
 });

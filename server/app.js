@@ -194,8 +194,8 @@ Meteor.startup(() => {
     },
     "addFood" (_id, english, chinese, korean, price) {
       check([_id, english, chinese, korean], [String]);
-      check(price, Match.Integer);
-      check(price, Match.Where((a) => a >= 0));
+      check(price, Number);
+      check(price, Match.Where((a) => a >= 0 && Number.isFinite(a)));
       if (Meteor.users.findOne({
           _id: this.userId
         }).admin && Menus.findOne({
@@ -220,7 +220,7 @@ Meteor.startup(() => {
     },
     "editFood" (_id, food, english, chinese, korean, price) {
       check([_id, food, english, chinese, korean], [String]);
-      check(price, Match.Integer);
+      check(price, Number);
       check(price, Match.Where((a) => a >= 0));
       if (Meteor.users.findOne({
           _id: this.userId
@@ -288,7 +288,7 @@ Meteor.startup(() => {
         }).admin) {
         return Meteor.users.find({}, {
           fields: {
-            emails: 1,
+            username: 1,
             paid: 1,
             admin: 1,
             language: 1
@@ -300,6 +300,7 @@ Meteor.startup(() => {
           _id: this.userId
         }, {
           fields: {
+            username: 1,
             emails: 1,
             paid: 1,
             admin: 1,
