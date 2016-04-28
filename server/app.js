@@ -64,19 +64,19 @@ Meteor.startup(() => {
   }
   //allow admin users to insert, update, and remove menus
   Menus.allow({
-    insert(userId) {
+    insert(_id) {
         return Meteor.users.findOne({
-          _id: userId
+          _id
         }).admin;
       },
-      update(userId) {
+      update(_id) {
         return Meteor.users.findOne({
-          _id: userId
+          _id
         }).admin;
       },
-      remove(userId) {
+      remove(_id) {
         return Meteor.users.findOne({
-          _id: userId
+          _id
         }).admin;
       }
   });
@@ -93,13 +93,13 @@ Meteor.startup(() => {
   });
   //allow admin users to set users to paid or not paid
   Meteor.methods({
-    "setUserToPaid" (userId) {
-      check(userId, String);
+    "setUserToPaid" (_id) {
+      check(_id, String);
       if (Meteor.users.findOne({
           _id: this.userId
         }).admin) {
         Meteor.users.update({
-          _id: userId
+          _id
         }, {
           $set: {
             paid: true
@@ -107,13 +107,13 @@ Meteor.startup(() => {
         });
       }
     },
-    "setUserToNotPaid" (userId) {
-      check(userId, String);
+    "setUserToNotPaid" (_id) {
+      check(_id, String);
       if (Meteor.users.findOne({
           _id: this.userId
         }).admin) {
         Meteor.users.update({
-          _id: userId
+          _id
         }, {
           $set: {
             paid: false
@@ -121,13 +121,13 @@ Meteor.startup(() => {
         });
       }
     },
-    "setUserToAdmin" (userId) {
-      check(userId, String);
+    "setUserToAdmin" (_id) {
+      check(_id, String);
       if (Meteor.users.findOne({
           _id: this.userId
         }).admin) {
         Meteor.users.update({
-          _id: userId
+          _id
         }, {
           $set: {
             admin: true
@@ -301,7 +301,6 @@ Meteor.startup(() => {
         }, {
           fields: {
             username: 1,
-            emails: 1,
             paid: 1,
             admin: 1,
             language: 1
